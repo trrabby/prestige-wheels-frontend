@@ -28,7 +28,7 @@ const MainLayouts: React.FC = () => {
           mode="inline"
           defaultSelectedKeys={['4']}
           items={sidebarItemsGenerator(AdminPaths, 'admin')}
-          className="flex flex-col items-center justify-center  h-full"
+          className="h-full pt-20"
         />
       </Sider>
       <Layout>
