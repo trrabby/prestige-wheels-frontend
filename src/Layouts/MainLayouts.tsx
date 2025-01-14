@@ -1,10 +1,9 @@
 import React from 'react';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
-import { sidebarItemsGenerator } from '@/utils/sideBarItemsGenerator';
-import AdminPaths from '@/routes/admin.routes';
+import Sidebar from './Sidebar';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const MainLayouts: React.FC = () => {
   const {
@@ -13,24 +12,7 @@ const MainLayouts: React.FC = () => {
 
   return (
     <Layout className="min-h-screen">
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['4']}
-          items={sidebarItemsGenerator(AdminPaths, 'admin')}
-          className="h-full pt-20"
-        />
-      </Sider>
+      <Sidebar></Sidebar>
       <Layout>
         <Header
           style={{

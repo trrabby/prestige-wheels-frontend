@@ -9,8 +9,8 @@ import {
 
 import { toast } from 'sonner';
 import { RootState } from '../store';
-import { logout, setUser } from '../auth/authSlice';
 import { config } from '@/config';
+import { logout, setUser } from '../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: config().URL,

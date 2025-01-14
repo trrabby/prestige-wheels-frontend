@@ -5,6 +5,7 @@ import Home from '@/Pages/home/Index';
 import { routeGenerator } from '@/utils/routesGenerators';
 import AdminPaths from './admin.routes';
 import Login from '@/Pages/Login';
+import ProtectedRoute from '@/layouts/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <App></App>,
+    element: (
+      <ProtectedRoute role="admin">
+        <App />
+      </ProtectedRoute>
+    ),
     children: routeGenerator(AdminPaths),
   },
 
