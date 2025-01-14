@@ -10,9 +10,10 @@ import {
 import { toast } from 'sonner';
 import { RootState } from '../store';
 import { logout, setUser } from '../auth/authSlice';
+import { config } from '@/config';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api',
+  baseUrl: config().URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -43,7 +44,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     //* Send Refresh
     console.log('Sending refresh token');
 
-    const res = await fetch('http://localhost:5000/api/auth/refresh-token', {
+    const res = await fetch(`${config().URL}/auth/refresh-token`, {
       method: 'POST',
       credentials: 'include',
     });
