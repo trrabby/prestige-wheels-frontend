@@ -1,23 +1,10 @@
-import React from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import React from 'react';
+import { Layout, Menu, theme } from 'antd';
+import { Outlet } from 'react-router-dom';
+import { sidebarItemsGenerator } from '@/utils/sideBarItemsGenerator';
+import AdminPaths from '@/routes/admin.routes';
 
 const { Header, Content, Footer, Sider } = Layout;
-
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
 
 const MainLayouts: React.FC = () => {
   const {
@@ -39,8 +26,8 @@ const MainLayouts: React.FC = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={items}
+          defaultSelectedKeys={['4']}
+          items={sidebarItemsGenerator(AdminPaths, 'admin')}
           className="flex flex-col items-center justify-center  h-full"
         />
       </Sider>
@@ -48,16 +35,16 @@ const MainLayouts: React.FC = () => {
         <Header
           style={{
             padding: 0,
-            color: "white",
-            fontSize: "50px",
-            textAlign: "center",
-            fontWeight: "bold",
-            width: "100%",
+            color: 'white',
+            fontSize: '50px',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            width: '100%',
           }}
         >
           Ink <span className="text-amber-200">Hives</span>
         </Header>
-        <Content style={{ margin: "24px 16px 0" }}>
+        <Content style={{ margin: '24px 16px 0' }}>
           <div
             style={{
               padding: 24,
@@ -66,10 +53,10 @@ const MainLayouts: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            content
+            <Outlet></Outlet>
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        <Footer style={{ textAlign: 'center' }}>
           ©{new Date().getFullYear()} Created by Towfique
         </Footer>
       </Layout>

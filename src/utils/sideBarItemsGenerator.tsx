@@ -1,4 +1,5 @@
-import { TSidebarItem, TSideBarRoutes } from "../types";
+import { TSidebarItem, TSideBarRoutes } from '../types';
+import { NavLink } from 'react-router-dom';
 
 export const sidebarItemsGenerator = (
   items: TSideBarRoutes[],
