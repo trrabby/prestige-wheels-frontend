@@ -1,11 +1,11 @@
-import React from 'react';
-import { Layout, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import React from "react";
+import { Layout, theme } from "antd";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const { Header, Content, Footer } = Layout;
 
-const MainLayouts: React.FC = () => {
+const DashBoardLayout: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -17,16 +17,16 @@ const MainLayouts: React.FC = () => {
         <Header
           style={{
             padding: 0,
-            color: 'white',
-            fontSize: '50px',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            width: '100%',
+            color: "white",
+            fontSize: "50px",
+            textAlign: "center",
+            fontWeight: "bold",
+            width: "100%",
           }}
         >
           Ink <span className="text-amber-200">Hives</span>
         </Header>
-        <Content style={{ margin: '24px 16px 0' }}>
+        <Content style={{ margin: "24px 16px 0" }}>
           <div
             style={{
               padding: 24,
@@ -38,7 +38,7 @@ const MainLayouts: React.FC = () => {
             <Outlet></Outlet>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer style={{ textAlign: "center" }}>
           ©{new Date().getFullYear()} Created by Towfique
         </Footer>
       </Layout>
@@ -46,4 +46,4 @@ const MainLayouts: React.FC = () => {
   );
 };
 
-export default MainLayouts;
+export default DashBoardLayout;

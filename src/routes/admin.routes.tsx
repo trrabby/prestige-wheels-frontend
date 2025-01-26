@@ -1,26 +1,20 @@
-import Blogs from '@/Pages/blogs/Blogs';
-import CreateBlogs from '@/Pages/blogs/CreateBlogs';
-import Users from '@/Pages/users/Users';
+import CreateProducts from "@/Pages/products/CreateProduct";
+import Users from "@/Pages/users/Users";
 
 const AdminPaths = [
   {
-    name: 'Blogs',
+    name: "Blogs",
     children: [
       {
-        name: 'Blogs',
-        path: 'blogs',
-        element: <Blogs></Blogs>,
-      },
-      {
-        name: 'Create Blog',
-        path: 'create-blog',
-        element: <CreateBlogs></CreateBlogs>,
+        name: "Add Car",
+        path: "add-car",
+        element: <CreateProducts />,
       },
     ],
   },
   {
-    name: 'Users',
-    path: 'users',
+    name: "Users",
+    path: "users",
     element: <Users></Users>,
   },
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -5,21 +6,21 @@ import {
   FetchArgs,
   createApi,
   fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
+} from "@reduxjs/toolkit/query/react";
 
-import { toast } from 'sonner';
-import { RootState } from '../store';
-import { config } from '@/config';
-import { logout, setUser } from '../features/auth/authSlice';
+import { toast } from "sonner";
+import { RootState } from "../store";
+import { config } from "@/config";
+import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: config().URL,
-  credentials: 'include',
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
 
     if (token) {
-      headers.set('authorization', `${token}`);
+      headers.set("authorization", `${token}`);
     }
 
     return headers;
@@ -42,11 +43,11 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   }
   if (result?.error?.status === 401) {
     //* Send Refresh
-    console.log('Sending refresh token');
+    console.log("Sending refresh token");
 
     const res = await fetch(`${config().URL}/auth/refresh-token`, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
     });
 
     const data = await res.json();
@@ -71,8 +72,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 };
 
 export const baseApi = createApi({
-  reducerPath: 'baseApi',
+  reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ['semester', 'courses', 'offeredCourse'],
+  tagTypes: ["semester", "courses", "offeredCourse"],
   endpoints: () => ({}),
 });
