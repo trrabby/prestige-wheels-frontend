@@ -2,7 +2,6 @@ import { MdOutlineMenuOpen } from "react-icons/md";
 import { IoMdMenu } from "react-icons/io";
 import { Element } from "react-scroll";
 import { useState } from "react";
-import { NavbarMd } from "./NavbarMd";
 
 export const Navbar = () => {
   const [toggle, setToggle] = useState(false);
@@ -12,10 +11,6 @@ export const Navbar = () => {
   };
   return (
     <div>
-      {/* navbar for medium and large device */}
-      <div className="w-full md:flex md:sticky md:top-0 hidden">
-        <NavbarMd></NavbarMd>
-      </div>
       <Element name="banner_scroll">
         <div className="w-full">
           {/* toggle button for small device  */}

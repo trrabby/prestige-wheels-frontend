@@ -1,9 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&display=swap");
 
 * {
   padding: 0px;
   margin: 0px;
-  font-family: "fantasy";
+}
+
+body {
+  font-family: "Belanosima", sans-serif;
 }

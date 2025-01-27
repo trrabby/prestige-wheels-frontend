@@ -42,18 +42,24 @@ export const NavbarMd = () => {
     },
   ];
   return (
-    <div className="bg-transparent sticky top-0 text-black shadow-sm shadow-[#4d4d00] rounded-b-2xl  z-30 w-full py-2">
+    <div className=" text-black bg-[#fffffffd] z-30 w-full py-4">
       <div className="navbar flex justify-between items-center">
         <div className="flex flex-row lg:flex-row justify-between items-end lg:flex-1">
-          <div>
-            <p className="text-primary text-3xl font-extrabold p-2 px-4">
-              <span className="text-cyan-500 text-4xl">Prestige</span> Wheels
+          <div className="w-2/6 pl-10 flex items-end">
+            <img
+              className="w-16"
+              src="https://i.ibb.co.com/M9tL3RT/suspension.png"
+              alt=""
+            />
+            <p className="text-primary text-3xl font-extrabold p-2 px-4 flex gap-2">
+              <span className="text-accent">PRESTIGE</span>
+              WHEELS
             </p>
           </div>
           {/* Menu */}
-          <div className="p-0 flex flex-1 justify-around text-lg">
+          <div className="px-10 pl-28 flex flex-1 justify-between text-lg">
             {/* Menu lg */}
-            <div className="navbar-center hidden md:flex gap-3 text-fourth">
+            <div className="navbar-center hidden md:flex gap-3 text-accent">
               {navlinks.map((navLink) => {
                 return (
                   <NavLink
@@ -70,7 +76,9 @@ export const NavbarMd = () => {
                   </NavLink>
                 );
               })}
+            </div>
 
+            <div className="flex justify-end items-center text-accent ml-5 font-bold">
               {!user && (
                 <NavLink
                   className={({ isActive }) =>
@@ -83,9 +91,7 @@ export const NavbarMd = () => {
                   SIGN IN
                 </NavLink>
               )}
-            </div>
 
-            <div className="flex justify-end items-center text-fourth ml-5 font-bold">
               {user && (
                 <Link
                   onClick={handleLogout}

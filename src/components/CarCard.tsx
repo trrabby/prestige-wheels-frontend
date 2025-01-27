@@ -14,15 +14,15 @@ const CarCard = ({ car }: any) => {
             className="w-full h-48 object-cover  hover: transform hover:scale-110 duration-500 "
           />
         </div>
-        <hr className="bg-fourth" />
+        <hr className="bg-primary" />
         <div className="flex justify-between items-center p-2">
           <div className="flex flex-col  justify-start p-2">
             <p className="text-lg font-bold">{`${car.brand} ${car.model}`}</p>
             <p className="text-sm">{car.category}</p>
           </div>
           <button
-            className="border-t-2 border-r-2 border-fourth p-2 hover:bg-fourth duration-500 
-          hover: transform hover:scale-110 hover:-translate-x-2 font-bold text-fourth hover:text-white"
+            className="border-t-2 border-r-2 border-primary p-2 hover:bg-primary duration-500 
+          hover: transform hover:scale-110 hover:-translate-x-2 font-bold text-primary hover:text-white"
           >
             View Details
           </button>
