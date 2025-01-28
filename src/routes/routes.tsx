@@ -8,6 +8,7 @@ import Login from "@/Pages/Login";
 import ProtectedRoute from "@/Layouts/ProtectedRoute";
 import DashBoardLayout from "@/Layouts/DashBoardLayouts";
 import Products from "@/Pages/products/Products";
+import Register from "@/Pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
         path: "/products",
         element: <Products></Products>,
       },
+      {
+        path: "/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
+      },
     ],
   },
   {
@@ -32,11 +41,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: routeGenerator(AdminPaths),
-  },
-
-  {
-    path: "/login",
-    element: <Login></Login>,
   },
 ]);
 

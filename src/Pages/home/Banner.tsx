@@ -6,19 +6,19 @@ const Banner = () => {
     <div>
       {/* banner */}
       <section
-        className=" shadow-sm h-[calc(100vh-130px)] rounded-xl my-5 
-      bg-[url('https://i.ibb.co.com/Qbv9QB3/Toyota-Bangladesh-2e16d0ba-fill-680x381-c0-format-avif-Rp-Lgjn-R.jpg')] 
-      bg-no-repeat bg-cover"
+        className=" shadow-sm min-h-screen rounded-xl my-5 
+      bg-[url('https://res.cloudinary.com/divyajujl/image/upload/v1738043669/white_car_in_white_background_hd_white_background_exxfx0.jpg')] 
+      bg-no-repeat bg-cover bg-center bg-opacity-5 "
       >
-        <div className="mx-auto max-w-screen-xl px-4 lg:flex lg:items-start w-full h-full ">
+        <div className="mx-auto max-w-screen-xl px-4 flex flex-col lg:items-start w-full  min-h-screen bg-[#ffffff67] ">
           <div
             data-aos="fade-up"
             data-aos-duration="1000"
-            className=" py-20 text-left space-y-5  w-8/12 flex flex-col items-start   "
+            className=" py-20 text-left space-y-5  w-8/12 flex flex-col items-start pl-20"
           >
             <h1 className="text-3xl font-extrabold sm:text-5xl  ">
-              <strong className="font-extrabold text-accent sm:block mt-5">
-                The All New Corolla Cross is Now Available!
+              <strong className="font-extrabold text-accent sm:block mt-10">
+                The All New Top Class Cars Now Available!
               </strong>
             </h1>
 
@@ -34,7 +34,7 @@ const Banner = () => {
                   data-aos="fade-right"
                   data-aos-duration="1000"
                   className="block border border-accent rounded bg-accent px-12 py-3 text-sm text-white font-bold hover:text-accent duration-700 shadow hover:bg-primary focus:outline-none focus:ring  sm:w-auto"
-                  to={"/lessons"}
+                  to={"/products"}
                 >
                   Get Started
                 </Link>
@@ -49,6 +49,19 @@ const Banner = () => {
                 </ScrollLink>
               </div>
             </div>
+          </div>
+          <div className="flex justify-end items-end w-full pt-20 ">
+            <iframe
+              className=" bg-[#ffffff67] rounded-lg shadow-md"
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/FxJALxhIx8k?si=Idj2GmUK7NWUueDm&amp;controls=0"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
       </section>

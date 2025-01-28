@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import {
@@ -12,6 +12,7 @@ import { verifyToken } from "@/utils/verifyToken";
 export const NavbarMd = () => {
   const token = useAppSelector(useCurrentToken);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   let user: TUser | undefined;
 
@@ -19,14 +20,15 @@ export const NavbarMd = () => {
     user = verifyToken(token) as TUser;
   }
 
-  const handleToast = () => {
-    if (!user) {
-      // setLoading(false)
-      return toast.error("log in required to proceed");
-    }
-  };
+  // const handleToast = () => {
+  //   if (!user) {
+  //     // setLoading(false)
+  //     return toast.error("log in required to proceed");
+  //   }
+  // };
 
   const handleLogout = () => {
+    navigate("/login");
     dispatch(logout());
     toast.success("Logged out");
   };
@@ -42,7 +44,7 @@ export const NavbarMd = () => {
     },
   ];
   return (
-    <div className=" text-black bg-[#fffffffd] z-30 w-full py-4">
+    <div className=" text-black bg-[#fffffffd] z-30 w-full py-2">
       <div className="navbar flex justify-between items-center">
         <div className="flex flex-row lg:flex-row justify-between items-end lg:flex-1">
           <div className="w-2/6 pl-10 flex items-end">
@@ -63,7 +65,6 @@ export const NavbarMd = () => {
               {navlinks.map((navLink) => {
                 return (
                   <NavLink
-                    onClick={handleToast}
                     className={({ isActive }) =>
                       isActive
                         ? "text-primary font-extrabold p-2"
@@ -93,13 +94,12 @@ export const NavbarMd = () => {
               )}
 
               {user && (
-                <Link
+                <button
                   onClick={handleLogout}
-                  to={"/"}
-                  className="btn btn-ghost hover:text-primary"
+                  className="hover:text-primary font-extrabold"
                 >
                   SIGN OUT
-                </Link>
+                </button>
               )}
             </div>
           </div>
