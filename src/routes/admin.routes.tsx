@@ -1,6 +1,6 @@
 import AdminHome from "@/Pages/dashboard/admin/AdminHome";
-import CreateProducts from "@/Pages/dashboard/admin/CreateProduct";
 import Users from "@/Pages/dashboard/admin/Users";
+import AddCar from "@/Pages/dashboard/admin/AddCar";
 
 const AdminPaths = [
   {
@@ -14,7 +14,7 @@ const AdminPaths = [
       {
         name: "Add Car",
         path: "add-car",
-        element: <CreateProducts />,
+        element: <AddCar />,
       },
     ],
   },

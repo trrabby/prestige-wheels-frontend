@@ -54,7 +54,7 @@ const DashBoardLayout: React.FC = () => {
                 src="https://i.ibb.co.com/M9tL3RT/suspension.png"
                 alt=""
               />
-              <a href="/">
+              <a className="flex justify-center gap-2" href="/">
                 <span className="text-accent ">PRESTIGE</span>
                 WHEELS
               </a>

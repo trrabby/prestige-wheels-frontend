@@ -27,7 +27,7 @@ export default function MainLayout() {
   }, [lastScrollY]);
 
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* navbar for medium and large device */}
       <div
         className={`w-full md:flex md:sticky md:top-0 hidden z-50 transition-transform duration-300 ${
