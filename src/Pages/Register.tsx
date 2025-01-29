@@ -1,5 +1,5 @@
-import { Button, Row } from "antd";
-import { FieldValues } from "react-hook-form";
+import { Button, Form, Input, Row } from "antd";
+import { Controller, FieldValues } from "react-hook-form";
 import { useRegisterMutation } from "../redux/features/auth/authApi";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -13,11 +13,12 @@ const Register = () => {
   const [register] = useRegisterMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
-    const image = data.imgUrl;
+    // console.log(data);
+    const image = data.image;
     const inputValues = { ...data };
+    delete inputValues?.image;
 
-    // console.log(inputValues, image);
+    console.log(inputValues, image);
     // Create a FormData object and append the data
     const formData = new FormData();
     formData.append("data", JSON.stringify(inputValues));
@@ -62,7 +63,20 @@ const Register = () => {
             <CustomInput type="text" name="name" label="Name:" />
             <CustomInput type="text" name="email" label="Email:" />
             <CustomInput type="text" name="password" label="Password" />
-            <CustomInput type="file" name="imgUrl" label="Image" />
+
+            <Controller
+              name="image"
+              render={({ field: { onChange, value, ...field } }) => (
+                <Form.Item label="Picture">
+                  <Input
+                    type="file"
+                    value={value?.fileName}
+                    {...field}
+                    onChange={(e) => onChange(e.target.files?.[0])}
+                  />
+                </Form.Item>
+              )}
+            />
 
             <p className="w-full text-left pb-5">
               Already have an account ?{" "}
