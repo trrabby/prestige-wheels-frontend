@@ -1,9 +1,15 @@
-import CreateProducts from "@/Pages/products/CreateProduct";
-import Users from "@/Pages/users/Users";
+import AdminHome from "@/Pages/dashboard/admin/AdminHome";
+import CreateProducts from "@/Pages/dashboard/admin/CreateProduct";
+import Users from "@/Pages/dashboard/admin/Users";
 
 const AdminPaths = [
   {
-    name: "Blogs",
+    name: "Dashboard Home",
+    path: "dashboard",
+    element: <AdminHome></AdminHome>,
+  },
+  {
+    name: "Product Management",
     children: [
       {
         name: "Add Car",
@@ -13,9 +19,14 @@ const AdminPaths = [
     ],
   },
   {
-    name: "Users",
-    path: "users",
-    element: <Users></Users>,
+    name: "User Management",
+    children: [
+      {
+        name: "All Users",
+        path: "users",
+        element: <Users></Users>,
+      },
+    ],
   },
 ];
 

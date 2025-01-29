@@ -9,6 +9,8 @@ import ProtectedRoute from "@/Layouts/ProtectedRoute";
 import DashBoardLayout from "@/Layouts/DashBoardLayouts";
 import Products from "@/Pages/products/Products";
 import Register from "@/Pages/Register";
+import userPaths from "./user.routes";
+import Profile from "@/Pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -31,16 +33,29 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register></Register>,
       },
+      {
+        path: "/my-profile",
+        element: <Profile></Profile>,
+      },
     ],
   },
   {
     path: "/admin",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role={"admin"}>
         <DashBoardLayout></DashBoardLayout>
       </ProtectedRoute>
     ),
     children: routeGenerator(AdminPaths),
+  },
+  {
+    path: "/user",
+    element: (
+      <ProtectedRoute role={"user"}>
+        <DashBoardLayout></DashBoardLayout>
+      </ProtectedRoute>
+    ),
+    children: routeGenerator(userPaths),
   },
 ]);
 

@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export type TUser = {
   userId: string;
   role: string;
+  name: string;
+  imgUrl: string;
   iat: number;
   exp: number;
 };

@@ -6,8 +6,8 @@ const Banner = () => {
     <div>
       {/* banner */}
       <section
-        className=" shadow-sm min-h-screen rounded-xl my-5 
-      bg-[url('https://res.cloudinary.com/divyajujl/image/upload/v1738043669/white_car_in_white_background_hd_white_background_exxfx0.jpg')] 
+        className=" shadow-sm min-h-screen rounded-xl  
+      bg-[url('https://res.cloudinary.com/divyajujl/image/upload/v1738152884/white_car_in_white_background_hd_white_background_ibccry.jpg')] 
       bg-no-repeat bg-cover bg-center bg-opacity-5 "
       >
         <div className="mx-auto max-w-screen-xl px-4 flex flex-col lg:items-start w-full  min-h-screen bg-[#ffffff67] ">

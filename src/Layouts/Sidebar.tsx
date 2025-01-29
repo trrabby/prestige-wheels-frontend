@@ -1,15 +1,11 @@
-import {
-  logout,
-  TUser,
-  useCurrentToken,
-} from "@/redux/features/auth/authSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hook";
 import AdminPaths from "@/routes/admin.routes";
 import userPaths from "@/routes/user.routes";
 import { sidebarItemsGenerator } from "@/utils/sideBarItemsGenerator";
 import { verifyToken } from "@/utils/verifyToken";
-import { Button, Layout, Menu } from "antd";
-import { NavLink } from "react-router-dom";
+import { Layout, Menu } from "antd";
 
 const { Sider } = Layout;
 
@@ -18,9 +14,8 @@ const userRole = {
   USER: "user",
 };
 
-const Sidebar = () => {
+const Sidebar = ({ collapsed }: any) => {
   const token = useAppSelector(useCurrentToken);
-  const despatch = useAppDispatch();
 
   let user;
 
@@ -42,48 +37,20 @@ const Sidebar = () => {
         break;
     }
   }
-  const handelDelete = () => {
-    despatch(logout());
-  };
 
   return (
     <Sider
-      breakpoint="lg"
-      collapsedWidth="0"
-      style={{ height: "100vh", position: "sticky", top: "0", left: "0" }}
+      className="bg-white"
+      collapsedWidth="40"
+      collapsed={collapsed}
+      style={{ height: "100vh" }}
     >
-      <div
-        style={{
-          color: "white",
-          height: "4rem",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <h1></h1>
-      </div>
       <Menu
-        style={{
-          color: "white",
-        }}
-        theme="dark"
+        className="pt-20 bg-white "
         mode="inline"
         defaultSelectedKeys={["4"]}
         items={sidebarItems}
       />
-      <div className="text-white pt-5 gap-10 flex flex-col items-center justify-center">
-        {!user && (
-          <div className="text-white pt-5 gap-10 flex flex-col items-center justify-center">
-            <NavLink to={"/blogs"}>Blogs</NavLink>
-            <Button>
-              <NavLink to={"/login"}>Login</NavLink>
-            </Button>
-          </div>
-        )}
-
-        {user && <Button onClick={handelDelete}>Log Out</Button>}
-      </div>
     </Sider>
   );
 };

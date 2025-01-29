@@ -1,37 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NavLink, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import {
-  logout,
-  TUser,
-  useCurrentToken,
-} from "@/redux/features/auth/authSlice";
+import { NavLink } from "react-router-dom";
+
+import { useAppSelector } from "@/redux/hook";
+import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
+import DropdownHead from "./DropdownHead";
 
 export const NavbarMd = () => {
   const token = useAppSelector(useCurrentToken);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   let user: TUser | undefined;
 
   if (token) {
     user = verifyToken(token) as TUser;
   }
-
   // const handleToast = () => {
   //   if (!user) {
   //     // setLoading(false)
   //     return toast.error("log in required to proceed");
   //   }
   // };
-
-  const handleLogout = () => {
-    navigate("/login");
-    dispatch(logout());
-    toast.success("Logged out");
-  };
 
   const navlinks = [
     {
@@ -92,16 +80,8 @@ export const NavbarMd = () => {
                   SIGN IN
                 </NavLink>
               )}
-
-              {user && (
-                <button
-                  onClick={handleLogout}
-                  className="hover:text-primary font-extrabold"
-                >
-                  SIGN OUT
-                </button>
-              )}
             </div>
+            {user && <DropdownHead user={user} />}
           </div>
         </div>
       </div>
