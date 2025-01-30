@@ -7,7 +7,7 @@ const productsManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: (args) => {
-        console.log(args);
+        // console.log(args);
         const params = new URLSearchParams();
 
         if (args) {
@@ -29,13 +29,15 @@ const productsManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
-    // addAcademicSemester: builder.mutation({
-    //   query: (data) => ({
-    //     url: "/academic-semesters/create-academic-semester",
-    //     method: "POST",
-    //     body: data,
-    //   }),
-    // }),
+
+    addCar: builder.mutation({
+      query: (data) => ({
+        url: "/cars/create-car",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     // getAcademicFaculties: builder.query({
     //   query: () => {
     //     return { url: "/academic-faculties", method: "GET" };
@@ -75,4 +77,5 @@ const productsManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllProductsQuery } = productsManagementApi;
+export const { useGetAllProductsQuery, useAddCarMutation } =
+  productsManagementApi;

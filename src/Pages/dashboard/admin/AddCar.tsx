@@ -1,31 +1,23 @@
 import CustomForm from "@/components/forms/CustomForm";
 import CustomInput from "@/components/forms/CustomInput";
-import CustomSelectWithInput from "@/components/forms/CustomSelectWithInput";
+import CustomSelectWithAddNew from "@/components/forms/CustomSelectWithAddNew";
 import { SectionHead } from "@/components/SectionHead";
-import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
-import { Button, Form, Input, Row } from "antd";
-import { Controller, FieldValues } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Button, Row } from "antd";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { OptionMaker } from "./utils/OptionMaker";
+import CustomFileInput from "@/components/forms/CustomFileInput";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useAddCarMutation } from "@/redux/features/admin/productsManagementApi";
+import { useNavigate } from "react-router-dom";
 
 const AddCar = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const { data: carsData } = useGetAllProductsQuery([
-    {
-      name: "fields",
-      value: "brand",
-    },
-  ]);
-  const carBrands = [...new Set(carsData?.data.map((car) => car.brand))];
-  console.log(carBrands);
+  const { carBrandOptions, carModelOptions, carCategoryOptions } =
+    OptionMaker();
 
-  // Format carBrands in the option select format
-  const carBrandOptions = carBrands.map((brand) => ({
-    value: brand,
-    label: brand,
-  }));
-
+  const [addCar, { isLoading }] = useAddCarMutation();
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
     const image = data.image;
@@ -39,14 +31,14 @@ const AddCar = () => {
     formData.append("file", image);
 
     const toastId = toast.loading("You are being registered. Please Wait");
-    console.log(formData);
+    // console.log(formData);
     try {
-      // const res = await register(formData).unwrap();
-      // console.log(res);
+      const res = await addCar(formData).unwrap();
+      console.log(res);
       toast.success("Registration Successfull, Please Sign In", {
         id: toastId,
       });
-      // navigate(`/login`);
+      navigate(`/products`);
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong", { id: toastId });
@@ -58,17 +50,39 @@ const AddCar = () => {
       <SectionHead title="Add Car" para="Add you product"></SectionHead>
       <Row className="md:w-6/12 mx-auto" justify="center" align="middle">
         <CustomForm onSubmit={onSubmit}>
-          <CustomSelectWithInput
+          <CustomSelectWithAddNew
+            key={"1"}
             label="Brand"
             name="brand"
             options={carBrandOptions}
           />
-          {/* <CustomSelect label="Brand" name="brand" options={carBrandOptions} /> */}
-          <CustomInput type="text" name="name" label="Name:" />
-          <CustomInput type="text" name="email" label="Email:" />
-          <CustomInput type="text" name="password" label="Password" />
+          <CustomSelectWithAddNew
+            key={"2"}
+            label="Model"
+            name="model"
+            options={carModelOptions}
+          />
 
-          <Controller
+          <CustomInput key={"3"} type="number" name="year" label="Edittion" />
+          <CustomInput key={"4"} type="number" name="price" label="Price" />
+
+          <CustomSelectWithAddNew
+            key={"5"}
+            label="Category"
+            name="category"
+            options={carCategoryOptions}
+          />
+
+          <CustomInput
+            key={"6"}
+            type="textArea"
+            name="description"
+            label="Description"
+          />
+
+          <CustomFileInput key={"7"} label="Picture" name="image" />
+
+          {/* <Controller
             name="image"
             render={({ field: { onChange, value, ...field } }) => (
               <Form.Item label="Picture">
@@ -80,15 +94,7 @@ const AddCar = () => {
                 />
               </Form.Item>
             )}
-          />
-
-          <p className="w-full text-left pb-5">
-            Already have an account ?{" "}
-            <Link className="hover:text-white" to={"/login"}>
-              {" "}
-              Sign In{" "}
-            </Link>
-          </p>
+          /> */}
 
           <div className="w-full text-center">
             <Button
@@ -101,7 +107,7 @@ const AddCar = () => {
               }}
               htmlType="submit"
             >
-              Sign Up
+              {isLoading ? <LoadingSpinner /> : "Add Car"}
             </Button>
           </div>
         </CustomForm>
