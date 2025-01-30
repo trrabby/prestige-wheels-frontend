@@ -6,7 +6,6 @@ import userPaths from "@/routes/user.routes";
 import { sidebarItemsGenerator } from "@/utils/sideBarItemsGenerator";
 import { verifyToken } from "@/utils/verifyToken";
 import { Layout, Menu } from "antd";
-
 const { Sider } = Layout;
 
 const userRole = {
@@ -44,9 +43,10 @@ const Sidebar = ({ collapsed }: any) => {
       collapsedWidth="40"
       collapsed={collapsed}
       style={{ height: "100vh" }}
+      width={250}
     >
       <Menu
-        className="pt-20 bg-white "
+        className="pt-20 bg-white  lg:text-lg text-sm  "
         mode="inline"
         defaultSelectedKeys={["4"]}
         items={sidebarItems}

@@ -6,11 +6,12 @@ import { toast } from "sonner";
 import CustomForm from "@/components/forms/CustomForm";
 import CustomInput from "@/components/forms/CustomInput";
 import { Helmet } from "react-helmet-async";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
@@ -97,7 +98,7 @@ const Register = () => {
                 }}
                 htmlType="submit"
               >
-                Sign Up
+                {isLoading ? <LoadingSpinner /> : "Sign Up"}
               </Button>
             </div>
           </CustomForm>

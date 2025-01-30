@@ -6,11 +6,11 @@ const Banner = () => {
     <div>
       {/* banner */}
       <section
-        className=" shadow-sm min-h-screen rounded-xl  
+        className="  min-h-screen rounded-xl w-full  
       bg-[url('https://res.cloudinary.com/divyajujl/image/upload/v1738152884/white_car_in_white_background_hd_white_background_ibccry.jpg')] 
-      bg-no-repeat bg-cover bg-center bg-opacity-5 "
+      bg-cover bg-center bg-opacity-5 "
       >
-        <div className="mx-auto max-w-screen-xl px-4 flex flex-col lg:items-start w-full  min-h-screen bg-[#ffffff67] ">
+        <div className="mx-auto px-4 flex flex-col lg:items-start w-full  min-h-screen bg-[#ffffff67]    ">
           <div
             data-aos="fade-up"
             data-aos-duration="1000"

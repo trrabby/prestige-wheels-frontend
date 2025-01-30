@@ -11,6 +11,7 @@ import CustomForm from "@/components/forms/CustomForm";
 import CustomInput from "@/components/forms/CustomInput";
 
 import { Helmet } from "react-helmet-async";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Login = () => {
     password: "admin12345",
   };
 
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
@@ -80,7 +81,7 @@ const Login = () => {
               }}
               htmlType="submit"
             >
-              Sign In
+              {isLoading ? <LoadingSpinner /> : "Sign Up"}
             </Button>
           </CustomForm>
         </Row>

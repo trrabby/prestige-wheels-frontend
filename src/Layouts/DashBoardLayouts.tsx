@@ -56,7 +56,7 @@ const DashBoardLayout: React.FC = () => {
               />
               <a className="flex justify-center gap-2" href="/">
                 <span className="text-accent ">PRESTIGE</span>
-                WHEELS
+                WHEELS <span className="text-accent ">DASHBOARD</span>
               </a>
             </p>
             <div className="flex justify-start items-center h-16 px-5">
