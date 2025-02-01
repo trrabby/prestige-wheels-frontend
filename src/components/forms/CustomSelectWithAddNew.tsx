@@ -19,6 +19,7 @@ const CustomSelectWithAddNew = ({
   disabled,
   mode,
 }: TCustomSelectWithAddNewProps) => {
+  // console.log(options);
   const [selectOptions, setSelectOptions] = useState(options || []);
   const [nameInput, setNameInput] = useState("");
   const inputRef = useRef<InputRef>(null);
@@ -31,7 +32,10 @@ const CustomSelectWithAddNew = ({
     e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   ) => {
     e.preventDefault();
-    if (nameInput) {
+    if (
+      nameInput &&
+      !selectOptions.some((option) => option.value === nameInput)
+    ) {
       const newOption = { value: nameInput, label: nameInput };
       setSelectOptions((prevOptions) => [...prevOptions, newOption]);
       setNameInput("");

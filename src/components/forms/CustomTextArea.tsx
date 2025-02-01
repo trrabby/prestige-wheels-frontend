@@ -1,16 +1,15 @@
-import { Form, Input } from "antd";
+import { Form } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { Controller } from "react-hook-form";
 
 type TInputProps = {
-  type: string;
   name: string;
   label?: string;
   disabled?: boolean;
   placeholder?: string;
 };
 
-const CustomInput = ({
-  type,
+const CustomTextArea = ({
   name,
   label,
   disabled,
@@ -22,10 +21,10 @@ const CustomInput = ({
         name={name}
         render={({ field }) => (
           <Form.Item label={label}>
-            <Input
+            <TextArea
               {...field}
+              rows={4}
               placeholder={placeholder}
-              type={type}
               id={name}
               size="large"
               disabled={disabled}
@@ -37,4 +36,4 @@ const CustomInput = ({
   );
 };
 
-export default CustomInput;
+export default CustomTextArea;

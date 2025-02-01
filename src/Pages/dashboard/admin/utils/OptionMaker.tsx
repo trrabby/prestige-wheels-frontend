@@ -15,7 +15,7 @@ export const OptionMaker = () => {
     label: brand,
   }));
 
-  //   Model Options
+  // Model Options
   const { data: modelData } = useGetAllProductsQuery([
     {
       name: "fields",
@@ -29,7 +29,7 @@ export const OptionMaker = () => {
     label: model,
   }));
 
-  //   Category Options
+  // Category Options
   const { data: categoryData } = useGetAllProductsQuery([
     {
       name: "fields",

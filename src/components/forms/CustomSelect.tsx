@@ -7,6 +7,7 @@ type TCustomSelectProps = {
   options: { value: string; label: string; disabled?: boolean }[] | undefined;
   disabled?: boolean;
   mode?: "multiple" | undefined;
+  placeholder?: string;
 };
 
 const CustomSelect = ({
@@ -15,6 +16,7 @@ const CustomSelect = ({
   options,
   disabled,
   mode,
+  placeholder,
 }: TCustomSelectProps) => {
   return (
     <Controller
@@ -22,6 +24,7 @@ const CustomSelect = ({
       render={({ field, fieldState: { error } }) => (
         <Form.Item label={label}>
           <Select
+            placeholder={placeholder}
             mode={mode}
             style={{ width: "100%" }}
             {...field}

@@ -9,19 +9,24 @@ import { OptionMaker } from "./utils/OptionMaker";
 import CustomFileInput from "@/components/forms/CustomFileInput";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useAddCarMutation } from "@/redux/features/admin/productsManagementApi";
-import { useNavigate } from "react-router-dom";
+import CustomTextArea from "@/components/forms/CustomTextArea";
+import CustomDatePicker from "@/components/forms/CustomDatePicker";
 
 const AddCar = () => {
-  const navigate = useNavigate();
-
   const { carBrandOptions, carModelOptions, carCategoryOptions } =
     OptionMaker();
 
+  // console.log(carBrandOptions);
+
   const [addCar, { isLoading }] = useAddCarMutation();
+
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
     const image = data.image;
+    const year = data.year.$y;
+    // console.log(year);
     const inputValues = { ...data };
+    inputValues.year = year;
     delete inputValues?.image;
 
     console.log(inputValues, image);
@@ -30,15 +35,17 @@ const AddCar = () => {
     formData.append("data", JSON.stringify(inputValues));
     formData.append("file", image);
 
-    const toastId = toast.loading("You are being registered. Please Wait");
+    const toastId = toast.loading("Adding Car, Please Wait...");
     // console.log(formData);
     try {
       const res = await addCar(formData).unwrap();
       console.log(res);
-      toast.success("Registration Successfull, Please Sign In", {
-        id: toastId,
-      });
-      navigate(`/products`);
+      if (res.success === true) {
+        toast.success("Car added successfully", {
+          id: toastId,
+        });
+      }
+      // navigate(`/products`);
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong", { id: toastId });
@@ -51,50 +58,48 @@ const AddCar = () => {
       <Row className="md:w-6/12 mx-auto" justify="center" align="middle">
         <CustomForm onSubmit={onSubmit}>
           <CustomSelectWithAddNew
-            key={"1"}
+            key={1}
             label="Brand"
             name="brand"
             options={carBrandOptions}
           />
           <CustomSelectWithAddNew
-            key={"2"}
+            key={2}
             label="Model"
             name="model"
             options={carModelOptions}
           />
 
-          <CustomInput key={"3"} type="number" name="year" label="Edittion" />
-          <CustomInput key={"4"} type="number" name="price" label="Price" />
-
           <CustomSelectWithAddNew
-            key={"5"}
+            key={3}
             label="Category"
             name="category"
             options={carCategoryOptions}
           />
 
-          <CustomInput
-            key={"6"}
-            type="textArea"
-            name="description"
-            label="Description"
+          <CustomDatePicker
+            key={4}
+            name="year"
+            label="Edition"
+            placeholder="Select Production Date"
           />
 
-          <CustomFileInput key={"7"} label="Picture" name="image" />
+          <CustomInput
+            key={5}
+            type="number"
+            name="price"
+            label="Price in Taka"
+          />
+          <CustomInput key={6} type="number" name="quantity" label="Quantity" />
 
-          {/* <Controller
-            name="image"
-            render={({ field: { onChange, value, ...field } }) => (
-              <Form.Item label="Picture">
-                <Input
-                  type="file"
-                  value={value?.fileName}
-                  {...field}
-                  onChange={(e) => onChange(e.target.files?.[0])}
-                />
-              </Form.Item>
-            )}
-          /> */}
+          <CustomTextArea
+            key={7}
+            name="description"
+            label="Description"
+            placeholder="Write Description"
+          />
+
+          <CustomFileInput key={8} label="Picture" name="image" />
 
           <div className="w-full text-center">
             <Button
