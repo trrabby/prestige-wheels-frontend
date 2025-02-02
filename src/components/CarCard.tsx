@@ -9,7 +9,7 @@ const CarCard = ({ car }: any) => {
       <div className="border-none w-full">
         <div>
           <img
-            src={car.imgUrl}
+            src={car?.imgUrl[0]}
             alt="car"
             className="w-full h-48 object-cover  hover: transform hover:scale-110 duration-500 "
           />

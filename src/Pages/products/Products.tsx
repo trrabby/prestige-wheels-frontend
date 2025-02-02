@@ -4,7 +4,16 @@ import { SectionHead } from "@/components/SectionHead";
 import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
 
 const Products = () => {
-  const { data: CarsData, isLoading } = useGetAllProductsQuery(undefined);
+  const { data: CarsData, isLoading } = useGetAllProductsQuery([
+    {
+      name: "limit",
+      value: "18",
+    },
+    {
+      name: "page",
+      value: "1",
+    },
+  ]);
   // console.log(CarsData);
   if (isLoading) return <LoadingSpinnerCircle />;
   return (

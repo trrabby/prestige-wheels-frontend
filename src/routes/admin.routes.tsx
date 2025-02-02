@@ -1,6 +1,7 @@
 import AdminHome from "@/Pages/dashboard/admin/AdminHome";
 import Users from "@/Pages/dashboard/admin/Users";
 import AddCar from "@/Pages/dashboard/admin/AddCar";
+import ManageCars from "@/Pages/dashboard/admin/ManageCars";
 
 const AdminPaths = [
   {
@@ -15,6 +16,11 @@ const AdminPaths = [
         name: "Add Car",
         path: "add-car",
         element: <AddCar />,
+      },
+      {
+        name: "Manage Cars",
+        path: "manage-cars",
+        element: <ManageCars />,
       },
     ],
   },
