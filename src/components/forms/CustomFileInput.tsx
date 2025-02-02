@@ -5,9 +5,15 @@ type TCustomFileInputProps = {
   label: string;
   name: string;
   disabled?: boolean;
+  defaultValue?: string;
 };
 
-const CustomFileInput = ({ label, name, disabled }: TCustomFileInputProps) => {
+const CustomFileInput = ({
+  label,
+  name,
+  disabled,
+  defaultValue,
+}: TCustomFileInputProps) => {
   return (
     <Controller
       name={name}
@@ -18,6 +24,7 @@ const CustomFileInput = ({ label, name, disabled }: TCustomFileInputProps) => {
           help={error ? error.message : null}
         >
           <Input
+            defaultValue={defaultValue}
             type="file"
             onChange={(e) => onChange(e.target.files?.[0])}
             disabled={disabled}

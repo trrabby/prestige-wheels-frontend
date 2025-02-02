@@ -7,6 +7,7 @@ type TDatePickerProps = {
   disabled?: boolean;
   placeholder?: string;
   picker?: "date" | "week" | "month" | "quarter" | "year";
+  defaultValue?: Date | null;
 };
 
 const CustomDatePicker = ({
@@ -15,6 +16,7 @@ const CustomDatePicker = ({
   disabled,
   placeholder,
   picker = "year",
+  defaultValue,
 }: TDatePickerProps) => {
   return (
     <div className="w-full" style={{ marginBottom: "20px" }}>
@@ -27,6 +29,7 @@ const CustomDatePicker = ({
             help={error ? error.message : null}
           >
             <DatePicker
+              defaultValue={defaultValue}
               style={{ width: "100%", height: "100%" }}
               {...field}
               picker={picker}

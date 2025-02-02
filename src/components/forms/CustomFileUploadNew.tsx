@@ -8,6 +8,7 @@ type TCustomFileInputProps = {
   label: string;
   name: string;
   disabled?: boolean;
+  defaultValue?: UploadFile[];
 };
 
 type FileType = UploadFile;
@@ -24,6 +25,7 @@ const CustomFileUploadNew = ({
   label,
   name,
   disabled,
+  defaultValue,
 }: TCustomFileInputProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -55,6 +57,7 @@ const CustomFileUploadNew = ({
           help={error ? error.message : null}
         >
           <Upload
+            defaultFileList={defaultValue as UploadFile[]}
             action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
             listType="picture-circle"
             fileList={fileList}

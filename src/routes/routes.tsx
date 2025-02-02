@@ -11,6 +11,7 @@ import Products from "@/Pages/products/Products";
 import Register from "@/Pages/Register";
 import userPaths from "./user.routes";
 import Profile from "@/Pages/Profile";
+import UpdateCar from "@/Pages/dashboard/admin/UpdateCar";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/my-profile",
         element: <Profile></Profile>,
+      },
+      {
+        path: `/admin/manage-cars/updateCar/:id`,
+        element: <UpdateCar />,
       },
     ],
   },

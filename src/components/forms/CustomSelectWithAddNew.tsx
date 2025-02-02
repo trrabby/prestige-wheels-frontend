@@ -11,6 +11,7 @@ type TCustomSelectWithAddNewProps = {
   disabled?: boolean;
   mode?: "multiple" | undefined;
   placeholder?: string;
+  defaultValue?: string;
 };
 
 const CustomSelectWithAddNew = ({
@@ -20,6 +21,7 @@ const CustomSelectWithAddNew = ({
   disabled,
   mode,
   placeholder,
+  defaultValue,
 }: TCustomSelectWithAddNewProps) => {
   // console.log(options);
   const [selectOptions, setSelectOptions] = useState(options || []);
@@ -57,6 +59,7 @@ const CustomSelectWithAddNew = ({
           help={error ? error.message : null}
         >
           <Select
+            defaultValue={defaultValue}
             placeholder={placeholder}
             showSearch
             mode={mode}

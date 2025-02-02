@@ -7,7 +7,6 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-
 import { toast } from "sonner";
 import { RootState } from "../store";
 import { config } from "@/config";
@@ -74,6 +73,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["semester", "courses", "offeredCourse"],
+  tagTypes: ["cars"],
   endpoints: () => ({}),
 });

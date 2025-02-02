@@ -7,6 +7,7 @@ type TInputProps = {
   label?: string;
   disabled?: boolean;
   placeholder?: string;
+  defaultValue?: string;
 };
 
 const CustomTextArea = ({
@@ -14,6 +15,7 @@ const CustomTextArea = ({
   label,
   disabled,
   placeholder,
+  defaultValue,
 }: TInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -22,6 +24,7 @@ const CustomTextArea = ({
         render={({ field }) => (
           <Form.Item label={label}>
             <TextArea
+              defaultValue={defaultValue}
               {...field}
               rows={4}
               placeholder={placeholder}

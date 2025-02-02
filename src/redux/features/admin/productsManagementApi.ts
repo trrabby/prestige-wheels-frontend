@@ -22,6 +22,7 @@ const productsManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["cars"],
       transformResponse: (response: any) => {
         return {
           data: response?.data?.result as ICars[],
@@ -36,6 +37,7 @@ const productsManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["cars"],
     }),
 
     deleteCar: builder.mutation({
@@ -44,6 +46,16 @@ const productsManagementApi = baseApi.injectEndpoints({
         method: "PUT",
         body: { isDeleted: true },
       }),
+      invalidatesTags: ["cars"],
+    }),
+
+    updateCar: builder.mutation({
+      query: ({ id, updatedData }: { id: string; updatedData: ICars }) => ({
+        url: `/cars/${id}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+      invalidatesTags: ["cars"],
     }),
   }),
 });
@@ -52,4 +64,5 @@ export const {
   useGetAllProductsQuery,
   useAddCarMutation,
   useDeleteCarMutation,
+  useUpdateCarMutation,
 } = productsManagementApi;

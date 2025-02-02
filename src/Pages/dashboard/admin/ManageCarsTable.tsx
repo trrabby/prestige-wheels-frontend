@@ -10,7 +10,7 @@ import { GrDocumentUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
 import { useDeleteCarMutation } from "@/redux/features/admin/productsManagementApi";
 import { toast } from "sonner";
-import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
+import Swal from "sweetalert2";
 
 interface DataType {
   key: string;
@@ -35,7 +35,7 @@ interface ManageCarsTableProps {
 }
 
 const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
-  const [deleteCar, { isLoading }] = useDeleteCarMutation();
+  const [deleteCar] = useDeleteCarMutation();
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -277,21 +277,44 @@ const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
     },
   ];
 
-  if (isLoading) {
-    return <LoadingSpinnerCircle />;
-  }
-
   const deleteHandler = async (id: string) => {
-    console.log(id);
-    try {
-      const result = await deleteCar(id);
-      console.log(result.data.success === true);
-      if (result) {
-        toast.success("Car deleted successfully");
+    // console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+
+      showClass: {
+        popup: `
+          animate__animated,
+          animate__fadeInUp,
+          animate__faster,
+        `,
+      },
+      hideClass: {
+        popup: `
+          animate__animated
+          animate__fadeOutDown
+          animate__faster
+        `,
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        toast.loading("Delating", { id: "deleteCar" });
+        try {
+          const response = await deleteCar(id);
+          if (response.data.success) {
+            toast.success("Car deleted successfully", { id: "deleteCar" });
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
-    } catch (err) {
-      console.log(err);
-    }
+    });
   };
 
   return <Table<DataType> columns={columns} dataSource={data} />;

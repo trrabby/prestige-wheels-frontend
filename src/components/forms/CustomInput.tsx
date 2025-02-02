@@ -7,6 +7,7 @@ type TInputProps = {
   label?: string;
   disabled?: boolean;
   placeholder?: string;
+  defaultValue?: string | number;
 };
 
 const CustomInput = ({
@@ -15,6 +16,7 @@ const CustomInput = ({
   label,
   disabled,
   placeholder,
+  defaultValue,
 }: TInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -23,6 +25,7 @@ const CustomInput = ({
         render={({ field }) => (
           <Form.Item label={label}>
             <Input
+              defaultValue={defaultValue}
               {...field}
               placeholder={placeholder}
               type={type}
