@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomForm from "@/components/forms/CustomForm";
 import CustomInput from "@/components/forms/CustomInput";
 import CustomSelectWithAddNew from "@/components/forms/CustomSelectWithAddNew";
@@ -6,15 +7,38 @@ import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { OptionMaker } from "./utils/OptionMaker";
-import CustomFileInput from "@/components/forms/CustomFileInput";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useAddCarMutation } from "@/redux/features/admin/productsManagementApi";
 import CustomTextArea from "@/components/forms/CustomTextArea";
 import CustomDatePicker from "@/components/forms/CustomDatePicker";
+import CustomSelect from "@/components/forms/CustomSelect";
+import CustomFileUploadNew from "@/components/forms/CustomFileUploadNew";
 
 const AddCar = () => {
-  const { carBrandOptions, carModelOptions, carCategoryOptions } =
-    OptionMaker();
+  const { carBrandOptions, carModelOptions } = OptionMaker();
+
+  const carCategoryOptions = [
+    {
+      value: "Sedan",
+      label: "Sedan",
+    },
+    {
+      value: "SUV",
+      label: "SUV",
+    },
+    {
+      value: "Truck",
+      label: "Truck",
+    },
+    {
+      value: "Coupe",
+      label: "Coupe",
+    },
+    {
+      value: "Convertible",
+      label: "Convertible",
+    },
+  ];
 
   // console.log(carBrandOptions);
 
@@ -22,18 +46,22 @@ const AddCar = () => {
 
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
-    const image = data.image;
-    const year = data.year.$y;
+
+    const imgArray = data.image;
+    const year = data?.year?.$y.toString();
     // console.log(year);
     const inputValues = { ...data };
     inputValues.year = year;
     delete inputValues?.image;
 
-    console.log(inputValues, image);
     // Create a FormData object and append the data
     const formData = new FormData();
+    imgArray.forEach((image: any) => {
+      formData.append("files", image?.originFileObj);
+    });
+
     formData.append("data", JSON.stringify(inputValues));
-    formData.append("file", image);
+    console.log(inputValues, imgArray);
 
     const toastId = toast.loading("Adding Car, Please Wait...");
     // console.log(formData);
@@ -62,19 +90,22 @@ const AddCar = () => {
             label="Brand"
             name="brand"
             options={carBrandOptions}
+            placeholder="Select/add car's brand"
           />
           <CustomSelectWithAddNew
             key={2}
             label="Model"
             name="model"
             options={carModelOptions}
+            placeholder="Select/add car's category"
           />
 
-          <CustomSelectWithAddNew
+          <CustomSelect
             key={3}
             label="Category"
             name="category"
             options={carCategoryOptions}
+            placeholder="Select a category"
           />
 
           <CustomDatePicker
@@ -89,8 +120,15 @@ const AddCar = () => {
             type="number"
             name="price"
             label="Price in Taka"
+            placeholder="Enter selling price"
           />
-          <CustomInput key={6} type="number" name="quantity" label="Quantity" />
+          <CustomInput
+            key={6}
+            type="number"
+            name="quantity"
+            label="Quantity"
+            placeholder="Enter quantity"
+          />
 
           <CustomTextArea
             key={7}
@@ -99,7 +137,8 @@ const AddCar = () => {
             placeholder="Write Description"
           />
 
-          <CustomFileInput key={8} label="Picture" name="image" />
+          {/* <CustomFileInput key={8} label="Picture" name="image" /> */}
+          <CustomFileUploadNew key={10} label="Picture" name="image" />
 
           <div className="w-full text-center">
             <Button

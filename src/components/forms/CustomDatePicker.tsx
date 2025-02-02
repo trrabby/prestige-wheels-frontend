@@ -17,7 +17,7 @@ const CustomDatePicker = ({
   picker = "year",
 }: TDatePickerProps) => {
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <div className="w-full" style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
@@ -27,6 +27,7 @@ const CustomDatePicker = ({
             help={error ? error.message : null}
           >
             <DatePicker
+              style={{ width: "100%", height: "100%" }}
               {...field}
               picker={picker}
               disabled={disabled}

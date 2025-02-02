@@ -10,6 +10,7 @@ type TCustomSelectWithAddNewProps = {
   options: { value: string; label: string; disabled?: boolean }[] | undefined;
   disabled?: boolean;
   mode?: "multiple" | undefined;
+  placeholder?: string;
 };
 
 const CustomSelectWithAddNew = ({
@@ -18,6 +19,7 @@ const CustomSelectWithAddNew = ({
   options,
   disabled,
   mode,
+  placeholder,
 }: TCustomSelectWithAddNewProps) => {
   // console.log(options);
   const [selectOptions, setSelectOptions] = useState(options || []);
@@ -55,6 +57,7 @@ const CustomSelectWithAddNew = ({
           help={error ? error.message : null}
         >
           <Select
+            placeholder={placeholder}
             showSearch
             mode={mode}
             style={{ width: "100%" }}
