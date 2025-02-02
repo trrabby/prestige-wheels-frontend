@@ -2,12 +2,15 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
-import { Button, Input, Space, Table, Tag } from "antd";
+import { Button, Input, Space, Table, Tag, Tooltip } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { ICars } from "@/types/cars.type";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
+import { useDeleteCarMutation } from "@/redux/features/admin/productsManagementApi";
+import { toast } from "sonner";
+import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
 
 interface DataType {
   key: string;
@@ -32,7 +35,8 @@ interface ManageCarsTableProps {
 }
 
 const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
-  //   console.log(carsData);
+  const [deleteCar, { isLoading }] = useDeleteCarMutation();
+
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -63,9 +67,17 @@ const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = (clearFilters: () => void) => {
+  const handleReset = (
+    clearFilters: () => void,
+    selectedKeys: string[],
+    confirm: FilterDropdownProps["confirm"],
+    dataIndex: DataIndex
+  ) => {
     clearFilters();
     setSearchText("");
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
   const getColumnSearchProps = (
@@ -104,23 +116,21 @@ const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
+            onClick={() =>
+              clearFilters &&
+              handleReset(
+                clearFilters,
+                selectedKeys as string[],
+                confirm,
+                dataIndex
+              )
+            }
             size="small"
             style={{ width: 90 }}
           >
             Reset
           </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText((selectedKeys as string[])[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
+
           <Button
             type="link"
             size="small"
@@ -235,26 +245,53 @@ const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
       render: (record) => {
         return (
           <div className="flex gap-2 items-center justify-center">
-            <Link to={`updateCar/${record.key}`}>
-              <button className=" bg-accent p-2 text-center text-xs font-bold  text-white hover:bg-blue-500 hover:text-white hover:scale-105 hover:duration-500 flex items-center gap-2 justify-center">
-                {" "}
-                <GrDocumentUpdate />
-              </button>
-            </Link>
-            <button
-              onClick={() => deleteHandler(record.key)}
-              className="bg-accent p-2 text-center text-xs font-bold uppercase text-white transition hover:bg-red-500 hover:text-black duration-700 flex items-center gap-2"
+            <Tooltip
+              placement="left"
+              title="Update"
+              color={"cyan"}
+              key={"toolTipcolor"}
             >
-              <MdDeleteOutline />
-            </button>
+              <Link to={`updateCar/${record.key}`}>
+                <button className=" bg-accent p-2 text-center text-xs font-bold  text-white hover:bg-[#13C2C2] hover:text-white hover:scale-110 hover:duration-500 flex items-center gap-2 justify-center">
+                  {" "}
+                  <GrDocumentUpdate className="hover:scale-125 duration-500" />
+                </button>
+              </Link>
+            </Tooltip>
+            <Tooltip
+              placement="top"
+              title="Delete"
+              color={"red"}
+              key={"toolTipcolor2"}
+            >
+              <button
+                onClick={() => deleteHandler(record.key)}
+                className="bg-accent p-2 text-center text-xs font-bold uppercase text-white transition hover:bg-red-500 hover:text-white hover:scale-110 duration-500 flex items-center gap-2"
+              >
+                <MdDeleteOutline className="hover:scale-125 duration-500" />
+              </button>
+            </Tooltip>
           </div>
         );
       },
     },
   ];
 
+  if (isLoading) {
+    return <LoadingSpinnerCircle />;
+  }
+
   const deleteHandler = async (id: string) => {
     console.log(id);
+    try {
+      const result = await deleteCar(id);
+      console.log(result.data.success === true);
+      if (result) {
+        toast.success("Car deleted successfully");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return <Table<DataType> columns={columns} dataSource={data} />;
