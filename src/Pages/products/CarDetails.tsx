@@ -1,9 +1,13 @@
 import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
 import { useParams } from "react-router-dom";
 import { HiCurrencyBangladeshi } from "react-icons/hi";
-import { Skeleton } from "antd";
+import { Skeleton, Tooltip } from "antd";
+import { FaCartArrowDown } from "react-icons/fa";
+import { useAppDispatch } from "@/redux/hook";
+import { setToCart } from "@/redux/features/admin/productsManagementSlice";
 
 export default function CarDetails() {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { data: carData, isLoading: isProductLoading } = useGetAllProductsQuery(
     [{ name: "_id", value: `${id}` }]
@@ -21,6 +25,10 @@ export default function CarDetails() {
   const { brand, model, category, year, price, imgUrl, description, quantity } =
     car || {};
 
+  const handleAddtoCart = (productId: string) => {
+    dispatch(setToCart(productId));
+  };
+
   return (
     <div className="overflow-hidden bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -28,9 +36,17 @@ export default function CarDetails() {
           <div className="lg:pt-4 lg:pr-8 flex flex-col justify-around">
             <div className="lg:max-w-lg">
               <h2 className="text-base/7 font-semibold text-accent">{brand}</h2>
-              <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
-                {model}
-              </p>
+              <div className="flex justify-between items-center">
+                <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+                  {model}
+                </p>
+                <Tooltip placement="top" title="Add to cart">
+                  <FaCartArrowDown
+                    onClick={() => handleAddtoCart(id!)}
+                    className="w-8 h-8 hover:text-primary hover:cursor-pointer"
+                  />
+                </Tooltip>
+              </div>
               <p className="mt-6 text-lg/8 text-gray-600">{description}</p>
             </div>
 
@@ -52,9 +68,7 @@ export default function CarDetails() {
           <img
             alt="Product screenshot"
             src={imgUrl ? imgUrl[0] : ""}
-            width={2432}
-            height={1442}
-            className="w-[48rem] max-w-none rounded-xl ring-1 shadow-xl ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
+            className=" w-[48rem] max-w-none rounded-xl ring-1 shadow-xl ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
           />
         </div>
       </div>

@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NavLink } from "react-router-dom";
-
 import { useAppSelector } from "@/redux/hook";
 import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
 import DropdownHead from "./DropdownHead";
-import CartBadge from "@/Pages/products/CartBadge";
+import CartBadge from "@/components/cart/CartBadge";
+import { useState } from "react";
+import CartPage from "@/components/cart/CartPage";
 
 export const NavbarMd = () => {
+  const [open, setOpen] = useState(false);
   const token = useAppSelector(useCurrentToken);
 
   let user: TUser | undefined;
@@ -32,6 +34,10 @@ export const NavbarMd = () => {
       name: "PRODUCTS",
     },
   ];
+
+  const handleOpenCartPage = () => {
+    setOpen(!open);
+  };
   return (
     <div className=" text-black bg-[#fffffffd] z-30 w-full py-2">
       <div className="navbar flex justify-between items-center">
@@ -82,7 +88,12 @@ export const NavbarMd = () => {
                 </NavLink>
               )}
             </div>
-            <CartBadge />
+            <div onClick={handleOpenCartPage}>
+              <CartBadge />
+            </div>
+
+            {/* Conditionally render CartPage */}
+            <CartPage open={open} setOpen={setOpen} />
             {user && <DropdownHead user={user} />}
           </div>
         </div>

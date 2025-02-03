@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -37,14 +34,18 @@ const products = [
   // More products...
 ];
 
-export default function ProductCart() {
-  const [open, setOpen] = useState(true);
+interface CartPageProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
 
+export default function CartPage({ open, setOpen }: CartPageProps) {
+  console.log(open);
   return (
-    <Dialog open={open} onClose={setOpen} className="relative z-10">
+    <Dialog open={open} onClose={() => setOpen(false)} className="relative ">
       <DialogBackdrop
         transition
-        className="fixed inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"
+        className="fixed border-2 border-red-500 inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"
       />
 
       <div className="fixed inset-0 overflow-hidden">
