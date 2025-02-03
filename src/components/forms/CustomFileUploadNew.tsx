@@ -74,7 +74,7 @@ const CustomFileUploadNew = ({
             }}
             disabled={disabled}
           >
-            {fileList.length >= 8 ? null : uploadButton}
+            {fileList.length >= 5 ? null : uploadButton}
           </Upload>
           {previewImage && (
             <Image

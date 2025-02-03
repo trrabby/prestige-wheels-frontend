@@ -27,7 +27,7 @@ const CustomInput = ({
           <Form.Item label={label}>
             <Input
               {...field}
-              value={field.value ?? defaultValue} // Ensure the value is always set
+              value={field.value} // Ensure the value is always set
               placeholder={placeholder}
               type={type}
               id={name}

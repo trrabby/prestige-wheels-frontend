@@ -1,5 +1,5 @@
 import CarCard from "@/components/CarCard";
-import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
+import { GradientCircularProgress } from "@/components/Progress";
 import { SectionHead } from "@/components/SectionHead";
 import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
 
@@ -15,7 +15,13 @@ const Products = () => {
     },
   ]);
   // console.log(CarsData);
-  if (isLoading) return <LoadingSpinnerCircle />;
+  if (isLoading)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        {/* <Skeleton active /> */}
+        <GradientCircularProgress />
+      </div>
+    );
   return (
     <div>
       <SectionHead

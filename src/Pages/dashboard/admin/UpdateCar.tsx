@@ -6,17 +6,23 @@ import { SectionHead } from "@/components/SectionHead";
 import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form";
 import { OptionMaker } from "./utils/OptionMaker";
-import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
+import {
+  useGetAllProductsQuery,
+  useUpdateCarMutation,
+} from "@/redux/features/admin/productsManagementApi";
 import CustomTextArea from "@/components/forms/CustomTextArea";
 import CustomDatePicker from "@/components/forms/CustomDatePicker";
 import CustomSelect from "@/components/forms/CustomSelect";
 import CustomFileUploadNew from "@/components/forms/CustomFileUploadNew";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
 import moment from "moment";
+import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const UpdateCar = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   // console.log(id);
   const { carBrandOptions, carModelOptions } = OptionMaker();
 
@@ -43,8 +49,8 @@ const UpdateCar = () => {
     },
   ];
 
-  // console.log(carBrandOptions);
-  // const [updateCar, { isLoading }] = useUpdateCarMutation();
+  const [updateCar, { isLoading: isUpdateGoingOn }] = useUpdateCarMutation();
+
   const { data: carData, isLoading: isProductLoading } = useGetAllProductsQuery(
     [{ name: "_id", value: `${id}` }]
   );
@@ -76,36 +82,44 @@ const UpdateCar = () => {
       year = Number(data?.year);
     }
 
-    console.log(year);
+    // console.log(year);
+    const previousUploadedImg: string[] = [];
 
-    const inputValues = { ...data };
-    inputValues.year = year;
-    delete inputValues?.image;
-
-    // Create a FormData object and append the data
+    // Handling imgArray. if new sending through formData. else through normal data
     const formData = new FormData();
     imgArray.forEach((image: any) => {
-      formData.append("files", image?.originFileObj);
+      if (image.originFileObj) {
+        formData.append("files", image?.originFileObj);
+      } else {
+        previousUploadedImg.push(image.url);
+      }
     });
+
+    const inputValues: {
+      previousUploadedImg: string[];
+      year?: number;
+      image?: any;
+    } = { previousUploadedImg, ...data };
+    inputValues.year = year;
+    delete inputValues?.image;
 
     formData.append("data", JSON.stringify(inputValues));
     console.log(inputValues, imgArray);
 
-    // const toastId = toast.loading("Adding Car, Please Wait...");
-    console.log(formData);
-    // try {
-    //   const res = await updateCar({id, "data"}).unwrap();
-    //   console.log(res);
-    //   if (res.success === true) {
-    //     toast.success("Car added successfully", {
-    //       id: toastId,
-    //     });
-    //   }
-    //   // navigate(`/products`);
-    // } catch (err) {
-    //   console.log(err);
-    //   toast.error("Something went wrong", { id: toastId });
-    // }
+    const toastId = toast.loading("Updating car data, Please Wait...");
+    try {
+      const res = await updateCar({ id: id!, updatedData: formData }).unwrap();
+      console.log(res);
+      if (res.success === true) {
+        toast.success("Data updated successfully", {
+          id: toastId,
+        });
+      }
+      navigate(`/cars/${id}`);
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
 
   return (
@@ -190,8 +204,7 @@ const UpdateCar = () => {
               }}
               htmlType="submit"
             >
-              "Add"
-              {/* {isLoading ? <LoadingSpinner /> : "Add Car"} */}
+              {isUpdateGoingOn ? <LoadingSpinner /> : "Update Car"}
             </Button>
           </div>
         </CustomForm>

@@ -12,6 +12,7 @@ import Register from "@/Pages/Register";
 import userPaths from "./user.routes";
 import Profile from "@/Pages/Profile";
 import UpdateCar from "@/Pages/dashboard/admin/UpdateCar";
+import CarDetails from "@/Pages/products/CarDetails";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         element: <Products></Products>,
       },
       {
+        path: "/products/cars/:id",
+        element: <CarDetails />,
+      },
+      {
         path: "/login",
         element: <Login></Login>,
       },
@@ -38,10 +43,6 @@ const router = createBrowserRouter([
         path: "/my-profile",
         element: <Profile></Profile>,
       },
-      {
-        path: `/admin/manage-cars/updateCar/:id`,
-        element: <UpdateCar />,
-      },
     ],
   },
   {
@@ -51,7 +52,13 @@ const router = createBrowserRouter([
         <DashBoardLayout></DashBoardLayout>
       </ProtectedRoute>
     ),
-    children: routeGenerator(AdminPaths),
+    children: [
+      ...routeGenerator(AdminPaths),
+      {
+        path: `manage-cars/updateCar/:id`,
+        element: <UpdateCar />,
+      },
+    ],
   },
   {
     path: "/user",

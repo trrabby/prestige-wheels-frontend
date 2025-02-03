@@ -50,7 +50,7 @@ const productsManagementApi = baseApi.injectEndpoints({
     }),
 
     updateCar: builder.mutation({
-      query: ({ id, updatedData }: { id: string; updatedData: ICars }) => ({
+      query: ({ id, updatedData }: { id: string; updatedData: FormData }) => ({
         url: `/cars/${id}`,
         method: "PATCH",
         body: updatedData,

@@ -5,6 +5,7 @@ import { useAppSelector } from "@/redux/hook";
 import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
 import DropdownHead from "./DropdownHead";
+import CartBadge from "@/Pages/products/CartBadge";
 
 export const NavbarMd = () => {
   const token = useAppSelector(useCurrentToken);
@@ -81,6 +82,7 @@ export const NavbarMd = () => {
                 </NavLink>
               )}
             </div>
+            <CartBadge />
             {user && <DropdownHead user={user} />}
           </div>
         </div>

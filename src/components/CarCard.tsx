@@ -5,7 +5,7 @@ const CarCard = ({ car }: any) => {
   // console.log(car);
 
   return (
-    <Link to={`cars/:${car._id}`} className="hover:cursor-pointer p-0 ">
+    <Link to={`cars/${car._id}`} className="hover:cursor-pointer p-0 ">
       <div className="border-none w-full">
         <div>
           <img
