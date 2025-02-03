@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Form, Image, Upload, Button } from "antd";
 import { Controller } from "react-hook-form";
@@ -31,6 +31,12 @@ const CustomFileUploadNew = ({
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
+  useEffect(() => {
+    if (defaultValue) {
+      setFileList(defaultValue);
+    }
+  }, [defaultValue]);
+
   //   console.log(fileList);
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -50,6 +56,7 @@ const CustomFileUploadNew = ({
   return (
     <Controller
       name={name}
+      defaultValue={defaultValue}
       render={({ field: { onChange }, fieldState: { error } }) => (
         <Form.Item
           label={label}
@@ -57,7 +64,6 @@ const CustomFileUploadNew = ({
           help={error ? error.message : null}
         >
           <Upload
-            defaultFileList={defaultValue as UploadFile[]}
             action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
             listType="picture-circle"
             fileList={fileList}

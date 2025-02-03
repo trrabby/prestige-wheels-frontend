@@ -5,23 +5,19 @@ import CustomSelectWithAddNew from "@/components/forms/CustomSelectWithAddNew";
 import { SectionHead } from "@/components/SectionHead";
 import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form";
-import { toast } from "sonner";
 import { OptionMaker } from "./utils/OptionMaker";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-import {
-  useGetAllProductsQuery,
-  useUpdateCarMutation,
-} from "@/redux/features/admin/productsManagementApi";
+import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
 import CustomTextArea from "@/components/forms/CustomTextArea";
 import CustomDatePicker from "@/components/forms/CustomDatePicker";
 import CustomSelect from "@/components/forms/CustomSelect";
 import CustomFileUploadNew from "@/components/forms/CustomFileUploadNew";
 import { useParams } from "react-router-dom";
 import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
+import moment from "moment";
 
 const UpdateCar = () => {
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const { carBrandOptions, carModelOptions } = OptionMaker();
 
   const carCategoryOptions = [
@@ -48,12 +44,12 @@ const UpdateCar = () => {
   ];
 
   // console.log(carBrandOptions);
-  const [updateCar, { isLoading }] = useUpdateCarMutation();
+  // const [updateCar, { isLoading }] = useUpdateCarMutation();
   const { data: carData, isLoading: isProductLoading } = useGetAllProductsQuery(
     [{ name: "_id", value: `${id}` }]
   );
 
-  console.log(carData?.data[0]);
+  // console.log(carData?.data[0]);
 
   if (isProductLoading) {
     return <LoadingSpinnerCircle />;
@@ -63,14 +59,25 @@ const UpdateCar = () => {
   const { brand, model, category, year, price, imgUrl, description, quantity } =
     car || {};
 
-  const defaultDate = year ? new Date(year, 0, 1) : null;
-  console.log(defaultDate);
+  // console.log(imgUrl);
+
+  const defaultDate = year ? moment(new Date(year, 0, 1)) : null;
+  // console.log(defaultDate); // Ensure this logs a valid moment object
+
   const onSubmit = async (data: FieldValues) => {
-    // console.log(data);
+    console.log(data);
 
     const imgArray = data.image;
-    const year = data?.year?.$y.toString();
-    // console.log(year);
+    let year;
+
+    if (data.year._isAMomentObject) {
+      year = data?.year?.year();
+    } else {
+      year = Number(data?.year);
+    }
+
+    console.log(year);
+
     const inputValues = { ...data };
     inputValues.year = year;
     delete inputValues?.image;
@@ -84,21 +91,21 @@ const UpdateCar = () => {
     formData.append("data", JSON.stringify(inputValues));
     console.log(inputValues, imgArray);
 
-    const toastId = toast.loading("Adding Car, Please Wait...");
-    // console.log(formData);
-    try {
-      const res = await updateCar({}).unwrap();
-      console.log(res);
-      if (res.success === true) {
-        toast.success("Car added successfully", {
-          id: toastId,
-        });
-      }
-      // navigate(`/products`);
-    } catch (err) {
-      console.log(err);
-      toast.error("Something went wrong", { id: toastId });
-    }
+    // const toastId = toast.loading("Adding Car, Please Wait...");
+    console.log(formData);
+    // try {
+    //   const res = await updateCar({id, "data"}).unwrap();
+    //   console.log(res);
+    //   if (res.success === true) {
+    //     toast.success("Car added successfully", {
+    //       id: toastId,
+    //     });
+    //   }
+    //   // navigate(`/products`);
+    // } catch (err) {
+    //   console.log(err);
+    //   toast.error("Something went wrong", { id: toastId });
+    // }
   };
 
   return (
@@ -183,7 +190,8 @@ const UpdateCar = () => {
               }}
               htmlType="submit"
             >
-              {isLoading ? <LoadingSpinner /> : "Add Car"}
+              "Add"
+              {/* {isLoading ? <LoadingSpinner /> : "Add Car"} */}
             </Button>
           </div>
         </CustomForm>

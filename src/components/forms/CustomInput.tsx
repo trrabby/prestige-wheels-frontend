@@ -22,11 +22,12 @@ const CustomInput = ({
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
+        defaultValue={defaultValue} // Ensure react-hook-form initializes with this value
         render={({ field }) => (
           <Form.Item label={label}>
             <Input
-              defaultValue={defaultValue}
               {...field}
+              value={field.value ?? defaultValue} // Ensure the value is always set
               placeholder={placeholder}
               type={type}
               id={name}

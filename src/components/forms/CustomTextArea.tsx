@@ -21,6 +21,7 @@ const CustomTextArea = ({
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
+        defaultValue={defaultValue}
         render={({ field }) => (
           <Form.Item label={label}>
             <TextArea

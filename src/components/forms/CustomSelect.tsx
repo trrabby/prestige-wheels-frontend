@@ -23,6 +23,7 @@ const CustomSelect = ({
   return (
     <Controller
       name={name}
+      defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
         <Form.Item label={label}>
           <Select

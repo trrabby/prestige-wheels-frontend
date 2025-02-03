@@ -1,5 +1,6 @@
 import { Form, DatePicker } from "antd";
 import { Controller } from "react-hook-form";
+import moment from "moment";
 
 type TDatePickerProps = {
   name: string;
@@ -7,7 +8,7 @@ type TDatePickerProps = {
   disabled?: boolean;
   placeholder?: string;
   picker?: "date" | "week" | "month" | "quarter" | "year";
-  defaultValue?: Date | null;
+  defaultValue?: moment.Moment | null;
 };
 
 const CustomDatePicker = ({
@@ -22,6 +23,7 @@ const CustomDatePicker = ({
     <div className="w-full" style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
+        defaultValue={defaultValue || null}
         render={({ field, fieldState: { error } }) => (
           <Form.Item
             label={label}
@@ -29,13 +31,16 @@ const CustomDatePicker = ({
             help={error ? error.message : null}
           >
             <DatePicker
-              defaultValue={defaultValue}
-              style={{ width: "100%", height: "100%" }}
               {...field}
+              value={field.value ? moment(field.value) : null} // Remove defaultValue from here
+              style={{ width: "100%", height: "100%" }}
               picker={picker}
               disabled={disabled}
               placeholder={placeholder}
-              onChange={(date) => field.onChange(date)}
+              onChange={(date) =>
+                field.onChange(date ? date.format("YYYY") : null)
+              } // Store value as a formatted string
+              defaultValue={defaultValue} // Only used for initial rendering
             />
             {error && <small style={{ color: "red" }}>{error.message}</small>}
           </Form.Item>
