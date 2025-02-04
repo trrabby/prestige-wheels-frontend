@@ -13,7 +13,7 @@ const CartBadge = () => {
       <Space>
         <Badge count={count}>
           <Avatar
-            className="bg-transparent text-accent"
+            className="bg-transparent text-accent hover:text-primary"
             shape="circle"
             size="large"
           >

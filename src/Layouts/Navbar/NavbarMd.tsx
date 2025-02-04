@@ -7,6 +7,7 @@ import DropdownHead from "./DropdownHead";
 import CartBadge from "@/components/cart/CartBadge";
 import { useState } from "react";
 import CartPage from "@/components/cart/CartPage";
+import { Tooltip } from "antd";
 
 export const NavbarMd = () => {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ export const NavbarMd = () => {
     setOpen(!open);
   };
   return (
-    <div className=" text-black bg-[#fffffffd] z-30 w-full py-2">
+    <div className=" text-accent bg-transparent backdrop-blur-sm z-30 w-full py-2">
       <div className="navbar flex justify-between items-center">
         <div className="flex flex-row lg:flex-row justify-between items-end lg:flex-1">
           <div className="w-2/6 pl-10 flex items-end">
@@ -74,7 +75,7 @@ export const NavbarMd = () => {
               })}
             </div>
 
-            <div className="flex justify-end items-center text-accent ml-5 font-bold">
+            <div className="flex gap-4 items-center justify-center">
               {!user && (
                 <NavLink
                   className={({ isActive }) =>
@@ -87,14 +88,15 @@ export const NavbarMd = () => {
                   SIGN IN
                 </NavLink>
               )}
+              <Tooltip title={"Cart"} placement={"rightBottom"}>
+                <div onClick={handleOpenCartPage}>
+                  <CartBadge />
+                </div>
+              </Tooltip>
+              {/* Conditionally render CartPage */}
+              <CartPage open={open} setOpen={setOpen} />
+              {user && <DropdownHead user={user} />}
             </div>
-            <div onClick={handleOpenCartPage}>
-              <CartBadge />
-            </div>
-
-            {/* Conditionally render CartPage */}
-            <CartPage open={open} setOpen={setOpen} />
-            {user && <DropdownHead user={user} />}
           </div>
         </div>
       </div>
