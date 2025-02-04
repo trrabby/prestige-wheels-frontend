@@ -8,6 +8,7 @@ import CartBadge from "@/components/cart/CartBadge";
 import { useState } from "react";
 import CartPage from "@/components/cart/CartPage";
 import { Tooltip } from "antd";
+import { toast } from "sonner";
 
 export const NavbarMd = () => {
   const [open, setOpen] = useState(false);
@@ -18,12 +19,12 @@ export const NavbarMd = () => {
   if (token) {
     user = verifyToken(token) as TUser;
   }
-  // const handleToast = () => {
-  //   if (!user) {
-  //     // setLoading(false)
-  //     return toast.error("log in required to proceed");
-  //   }
-  // };
+  const handleToast = () => {
+    if (!user) {
+      // setLoading(false)
+      return toast.error("log in required to proceed");
+    }
+  };
 
   const navlinks = [
     {
@@ -37,7 +38,11 @@ export const NavbarMd = () => {
   ];
 
   const handleOpenCartPage = () => {
-    setOpen(!open);
+    if (!user) {
+      handleToast();
+    } else {
+      setOpen(!open);
+    }
   };
   return (
     <div className=" text-accent bg-transparent backdrop-blur-sm z-30 w-full py-2">

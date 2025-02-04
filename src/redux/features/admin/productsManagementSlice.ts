@@ -1,5 +1,6 @@
 import { RootState } from "@/redux/store";
 import { createSlice } from "@reduxjs/toolkit";
+import { logout } from "../auth/authSlice";
 
 type TCartBadgeState = {
   cart: string[];
@@ -17,11 +18,15 @@ const cartBadgeSlice = createSlice({
       const productId = action.payload;
       state.cart.push(productId);
     },
-
     removeFromCart: (state, action) => {
       const productId = action.payload;
-      state.cart = state.cart.filter((id) => id !== productId); // Remove item properly
+      state.cart = state.cart.filter((id) => id !== productId);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logout, (state) => {
+      state.cart = []; // Clear cart on logout
+    });
   },
 });
 

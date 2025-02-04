@@ -1,5 +1,8 @@
-import { useCartItems } from "@/redux/features/admin/productsManagementSlice";
-import { useAppSelector } from "@/redux/hook";
+import {
+  removeFromCart,
+  useCartItems,
+} from "@/redux/features/admin/productsManagementSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ICars } from "@/types/cars.type";
 import {
   Dialog,
@@ -13,6 +16,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "@/config";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { HiDocumentCurrencyBangladeshi } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
+import CustomModal from "../forms/CustomModal";
+import CustomEmpty from "../Empty";
 
 interface CartPageProps {
   open: boolean;
@@ -23,6 +30,20 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
   const [cartArray, setCartArray] = useState<ICars[]>([]); // State to store the products
   const cartArrayIds = useAppSelector(useCartItems); // Cart item IDs
   const token = useAppSelector(useCurrentToken); // Authentication token
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [modalOopen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalOpen(!modalOopen);
+  };
+
+  // let user: TUser | undefined;
+
+  // if (token) {
+  //   user = verifyToken(token) as TUser;
+  // }
+  // console.log(user);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -69,11 +90,22 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
         console.error("Error fetching products:", error);
       }
     };
-
-    if (cartArrayIds.length > 0) {
-      fetchProducts(); // Only fetch if there are cart items
-    }
+    fetchProducts();
   }, [cartArrayIds, token]); // Re-fetch when cartArrayIds or token changes
+
+  const handleRemoveFromCart = (id: string) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const handleNavigatingToProductPage = (id: string) => {
+    navigate(`products/cars/${id}`);
+    setOpen(false);
+  };
+
+  const handleCheckout = () => {
+    handleModalOpen();
+    // navigate(`${user?.role}/my-order`);
+  };
 
   return (
     <Dialog
@@ -105,59 +137,88 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto mt-4">
-                <ul>
-                  {cartArray.map((product) => (
-                    <li
-                      key={product._id}
-                      className="flex items-center gap-4 py-4 border-b"
-                    >
-                      <img
-                        src={product.imgUrl[0]}
-                        alt={"Product Image"}
-                        className="w-16 h-16 rounded-md border"
-                      />
-                      <div className="flex-1">
-                        <p className="font-medium">{product.model}</p>
-                        <p className="text-sm text-gray-500">{product.brand}</p>
-                        <p className="font-semibold">{product.price}</p>
-                        {/* Display the Quantity of the product */}
-                        <p className="text-sm text-gray-400">
-                          Quantity: {product.quantity}
-                        </p>
-                      </div>
-                      <button className="text-red-500 hover:text-red-700">
-                        Remove
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {cartArray.length > 0 ? (
+                <div className="flex flex-col justify-between h-full">
+                  <div className="flex-1 overflow-y-auto mt-4">
+                    <ul>
+                      {cartArray.map((product) => (
+                        <li
+                          key={product._id}
+                          className="flex items-center gap-4 py-4 border-b "
+                        >
+                          <img
+                            onClick={() =>
+                              handleNavigatingToProductPage(product._id)
+                            }
+                            src={product.imgUrl[0]}
+                            alt={"Product Image"}
+                            className="w-16 h-16 rounded-md border cursor-pointer hover:shadow-sm hover:shadow-accent"
+                          />
+                          <div className="flex-1">
+                            <p
+                              onClick={() =>
+                                handleNavigatingToProductPage(product._id)
+                              }
+                              className="font-medium hover:underline hover: cursor-pointer"
+                            >
+                              {product.model}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {product.brand}
+                            </p>
+                            <p className="font-semibold flex gap-2 items-center justify-start">
+                              <HiDocumentCurrencyBangladeshi />
+                              {product.price}
+                            </p>
+                            {/* Display the Quantity of the product */}
+                            <p className="text-sm text-gray-400">
+                              Quantity: {product.quantity}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => handleRemoveFromCart(product._id)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            Remove
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-              <div className="mt-auto border-t pt-4">
-                <div className="flex justify-between font-semibold text-lg">
-                  <p>Subtotal</p>
-                  <p>
-                    $
-                    {cartArray
-                      .reduce(
-                        (total, product) =>
-                          total + product.price * product.quantity,
-                        0
-                      )
-                      .toFixed(2)}
-                  </p>
+                  <div className="mt-auto border-t pt-4">
+                    <div className="flex justify-between font-semibold text-lg">
+                      <p>Subtotal</p>
+                      <p>
+                        $
+                        {cartArray
+                          .reduce(
+                            (total, product) =>
+                              total + product.price * product.quantity,
+                            0
+                          )
+                          .toFixed(2)}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={handleCheckout}
+                      className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700"
+                    >
+                      Checkout
+                    </button>
+                    <CustomModal open={modalOopen} setOpen={setModalOpen} />
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="mt-2 w-full text-indigo-600 hover:underline"
+                    >
+                      Continue Shopping
+                    </button>
+                  </div>
                 </div>
-                <button className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700">
-                  Checkout
-                </button>
-                <button
-                  onClick={() => setOpen(false)}
-                  className="mt-2 w-full text-indigo-600 hover:underline"
-                >
-                  Continue Shopping
-                </button>
-              </div>
+              ) : (
+                <CustomEmpty setOpen={setOpen} />
+              )}
             </DialogPanel>
           </motion.div>
         )}
