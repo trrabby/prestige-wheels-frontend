@@ -41,13 +41,7 @@ const Register = () => {
   };
 
   return (
-    <div
-      style={{
-        background:
-          "linear-gradient(345deg, rgba(255,255,255,1) 3%, rgba(39,39,109,0.7371323529411764) 28%, rgba(255,246,247,1) 100%)",
-      }}
-      className="flex flex-col lg:min-h-[calc(100vh-100px)] items-center justify-center p-5"
-    >
+    <div className="flex flex-col lg:min-h-[calc(100vh-100px)] items-center justify-center p-5">
       <Helmet>
         <title> Prestige Wheels | Sign Up</title>
       </Helmet>
