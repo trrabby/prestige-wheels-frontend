@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { Divider, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import CustomForm from "./CustomForm";
+import CustomForm from "./forms/CustomForm";
 import { FieldValues } from "react-hook-form";
-import CustomInput from "./CustomInput";
+import CustomInput from "./forms/CustomInput";
 
 interface CustomModalProps {
   open: boolean;

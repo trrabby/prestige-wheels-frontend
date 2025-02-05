@@ -16,6 +16,7 @@ import CustomFileUploadNew from "@/components/forms/CustomFileUploadNew";
 
 const AddCar = () => {
   const { carBrandOptions, carModelOptions } = OptionMaker();
+  // console.log(carBrandOptions);
 
   const carCategoryOptions = [
     {
@@ -40,25 +41,32 @@ const AddCar = () => {
     },
   ];
 
-  // console.log(carBrandOptions);
-
   const [addCar, { isLoading }] = useAddCarMutation();
 
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
 
     const imgArray = data.image;
-    const year = data?.year?.$y.toString();
-    // console.log(year);
+    let year;
+
+    if (data.year._isAMomentObject) {
+      year = data?.year?.year();
+    } else {
+      year = Number(data?.year);
+    }
+
     const inputValues = { ...data };
     inputValues.year = year;
     delete inputValues?.image;
+    // console.log(inputValues);
 
     // Create a FormData object and append the data
     const formData = new FormData();
-    imgArray.forEach((image: any) => {
-      formData.append("files", image?.originFileObj);
-    });
+    if (imgArray) {
+      imgArray.forEach((image: any) => {
+        formData.append("files", image?.originFileObj);
+      });
+    }
 
     formData.append("data", JSON.stringify(inputValues));
     console.log(inputValues, imgArray);
@@ -73,10 +81,13 @@ const AddCar = () => {
           id: toastId,
         });
       }
-      // navigate(`/products`);
+      // navigate(`/cars/${res.}`);
     } catch (err) {
       console.log(err);
-      toast.error("Something went wrong", { id: toastId });
+      toast.error(
+        "Something went wrong. Please make sure you input required information.",
+        { id: toastId }
+      );
     }
   };
 
@@ -91,6 +102,7 @@ const AddCar = () => {
             name="brand"
             options={carBrandOptions}
             placeholder="Select/add car's brand"
+            required={true}
           />
           <CustomSelectWithAddNew
             key={2}
@@ -98,6 +110,7 @@ const AddCar = () => {
             name="model"
             options={carModelOptions}
             placeholder="Select/add car's category"
+            required={true}
           />
 
           <CustomSelect
@@ -106,6 +119,7 @@ const AddCar = () => {
             name="category"
             options={carCategoryOptions}
             placeholder="Select a category"
+            required={true}
           />
 
           <CustomDatePicker
@@ -113,6 +127,7 @@ const AddCar = () => {
             name="year"
             label="Edition"
             placeholder="Select Production Date"
+            required={true}
           />
 
           <CustomInput
@@ -121,6 +136,7 @@ const AddCar = () => {
             name="price"
             label="Price in Taka"
             placeholder="Enter selling price"
+            required={true}
           />
           <CustomInput
             key={6}
@@ -128,6 +144,7 @@ const AddCar = () => {
             name="quantity"
             label="Quantity"
             placeholder="Enter quantity"
+            required={true}
           />
 
           <CustomTextArea
@@ -135,6 +152,7 @@ const AddCar = () => {
             name="description"
             label="Description"
             placeholder="Write Description"
+            required={true}
           />
 
           {/* <CustomFileInput key={8} label="Picture" name="image" /> */}

@@ -18,7 +18,7 @@ import { config } from "@/config";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { HiDocumentCurrencyBangladeshi } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import CustomModal from "../forms/CustomModal";
+import CustomModal from "../CustomModal";
 import CustomEmpty from "../Empty";
 
 interface CartPageProps {

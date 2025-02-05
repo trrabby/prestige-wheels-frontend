@@ -9,6 +9,7 @@ type TCustomFileInputProps = {
   name: string;
   disabled?: boolean;
   defaultValue?: UploadFile[];
+  required?: boolean;
 };
 
 type FileType = UploadFile;
@@ -26,6 +27,7 @@ const CustomFileUploadNew = ({
   name,
   disabled,
   defaultValue,
+  required,
 }: TCustomFileInputProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -60,6 +62,7 @@ const CustomFileUploadNew = ({
       render={({ field: { onChange }, fieldState: { error } }) => (
         <Form.Item
           label={label}
+          required={required}
           validateStatus={error ? "error" : ""}
           help={error ? error.message : null}
         >

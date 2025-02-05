@@ -12,6 +12,7 @@ type TCustomSelectWithAddNewProps = {
   mode?: "multiple" | undefined;
   placeholder?: string;
   defaultValue?: string;
+  required?: boolean;
 };
 
 const CustomSelectWithAddNew = ({
@@ -22,6 +23,7 @@ const CustomSelectWithAddNew = ({
   mode,
   placeholder,
   defaultValue,
+  required,
 }: TCustomSelectWithAddNewProps) => {
   // console.log(options);
   const [selectOptions, setSelectOptions] = useState(options || []);
@@ -56,6 +58,7 @@ const CustomSelectWithAddNew = ({
       render={({ field, fieldState: { error } }) => (
         <Form.Item
           label={label}
+          required={required}
           validateStatus={error ? "error" : ""}
           help={error ? error.message : null}
         >

@@ -8,6 +8,7 @@ type TInputProps = {
   disabled?: boolean;
   placeholder?: string;
   defaultValue?: string;
+  required?: boolean;
 };
 
 const CustomTextArea = ({
@@ -16,6 +17,7 @@ const CustomTextArea = ({
   disabled,
   placeholder,
   defaultValue,
+  required,
 }: TInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -23,9 +25,10 @@ const CustomTextArea = ({
         name={name}
         defaultValue={defaultValue}
         render={({ field }) => (
-          <Form.Item label={label}>
+          <Form.Item required={required} label={label}>
             <TextArea
               defaultValue={defaultValue}
+              required={required}
               {...field}
               rows={4}
               placeholder={placeholder}

@@ -9,6 +9,7 @@ type TDatePickerProps = {
   placeholder?: string;
   picker?: "date" | "week" | "month" | "quarter" | "year";
   defaultValue?: moment.Moment | null;
+  required?: boolean;
 };
 
 const CustomDatePicker = ({
@@ -18,6 +19,7 @@ const CustomDatePicker = ({
   placeholder,
   picker = "year",
   defaultValue,
+  required,
 }: TDatePickerProps) => {
   return (
     <div className="w-full" style={{ marginBottom: "20px" }}>
@@ -27,11 +29,13 @@ const CustomDatePicker = ({
         render={({ field, fieldState: { error } }) => (
           <Form.Item
             label={label}
+            required={required}
             validateStatus={error ? "error" : ""}
             help={error ? error.message : null}
           >
             <DatePicker
               {...field}
+              required={required}
               value={field.value ? moment(field.value) : null} // Remove defaultValue from here
               style={{ width: "100%", height: "100%" }}
               picker={picker}

@@ -9,6 +9,7 @@ type TCustomSelectProps = {
   mode?: "multiple" | undefined;
   placeholder?: string;
   defaultValue?: string | number;
+  required?: boolean;
 };
 
 const CustomSelect = ({
@@ -19,13 +20,14 @@ const CustomSelect = ({
   mode,
   placeholder,
   defaultValue,
+  required,
 }: TCustomSelectProps) => {
   return (
     <Controller
       name={name}
       defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
-        <Form.Item label={label}>
+        <Form.Item required={required} label={label}>
           <Select
             defaultValue={defaultValue}
             placeholder={placeholder}
