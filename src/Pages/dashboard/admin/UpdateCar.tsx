@@ -14,7 +14,7 @@ import CustomTextArea from "@/components/forms/CustomTextArea";
 import CustomDatePicker from "@/components/forms/CustomDatePicker";
 import CustomSelect from "@/components/forms/CustomSelect";
 import CustomFileUploadNew from "@/components/forms/CustomFileUploadNew";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
 import moment from "moment";
 import { toast } from "sonner";
@@ -22,7 +22,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const UpdateCar = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // console.log(id);
   const { carBrandOptions, carModelOptions } = OptionMaker();
 
@@ -115,7 +115,7 @@ const UpdateCar = () => {
           id: toastId,
         });
       }
-      // navigate(`/products/cars/${id}`);
+      navigate(`/products/cars/${id}`);
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong", { id: toastId });

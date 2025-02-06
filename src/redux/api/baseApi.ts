@@ -17,11 +17,12 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
-    // console.log(token);
+
     if (token) {
       headers.set("authorization", `${token}`);
     }
-
+    // console.log(token);
+    console.log(headers);
     return headers;
   },
 });
@@ -53,14 +54,16 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     });
 
     const data = await res.json();
+
     // console.log(data.data.refreshedAccessToken);
+
     if (data?.data?.refreshedAccessToken) {
       const user = (api.getState() as RootState).auth.user;
-      console.log(user);
+      // console.log(user);
       api.dispatch(
         setUser({
           user,
-          token: `Bearer ${data.data.refreshedAccessToken}`,
+          token: data.data.refreshedAccessToken,
         })
       );
 

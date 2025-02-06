@@ -1,13 +1,21 @@
 import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { HiCurrencyBangladeshi } from "react-icons/hi";
 import { Skeleton, Tooltip } from "antd";
 import { FaCartArrowDown } from "react-icons/fa";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setToCart } from "@/redux/features/admin/productsManagementSlice";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { FaPenToSquare } from "react-icons/fa6";
+import { toast } from "sonner";
 
 export default function CarDetails() {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+
+  // console.log(user);
+  const admin = user?.role === "admin";
+
   const { id } = useParams();
   const { data: carData, isLoading: isProductLoading } = useGetAllProductsQuery(
     [{ name: "_id", value: `${id}` }]
@@ -27,6 +35,7 @@ export default function CarDetails() {
 
   const handleAddtoCart = (productId: string) => {
     dispatch(setToCart(productId));
+    toast.success(`${brand} ${model} Added to cart`);
   };
 
   return (
@@ -37,8 +46,13 @@ export default function CarDetails() {
             <div className="lg:max-w-lg">
               <h2 className="text-base/7 font-semibold text-accent">{brand}</h2>
               <div className="flex justify-between items-center">
-                <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+                <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl flex gap-10">
                   {model}
+                  {admin && (
+                    <Link to={`/admin/manage-cars/updateCar/${id}`}>
+                      <FaPenToSquare className="hover:text-primary hover:cursor-pointer w-6 h-6" />
+                    </Link>
+                  )}
                 </p>
                 <Tooltip placement="top" title="Add to cart">
                   <FaCartArrowDown

@@ -75,7 +75,7 @@ const DropdownHead = ({ user }: DropdownHeadProps) => {
         <Space>
           {user ? (
             <>
-              <div className="font-bold rounded-full border hover:cursor-pointer">
+              <div className=" font-bold rounded-full border hover:cursor-pointer">
                 {user.imgUrl ? (
                   <div className="h-full w-full">
                     <img

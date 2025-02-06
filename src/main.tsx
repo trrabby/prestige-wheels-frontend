@@ -21,6 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           duration={2000}
           toastOptions={{
             classNames: {
+              loading: "text-blue",
+              success: "text-green",
+              icon: "text-white",
               toast: "bg-accent border-2 border-white",
               title: "text-white",
               description: "text-red-400",
