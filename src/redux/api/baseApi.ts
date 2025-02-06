@@ -17,7 +17,7 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
-
+    // console.log(token);
     if (token) {
       headers.set("authorization", `${token}`);
     }
@@ -53,7 +53,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     });
 
     const data = await res.json();
-    console.log(data.data.refreshedAccessToken);
+    // console.log(data.data.refreshedAccessToken);
     if (data?.data?.refreshedAccessToken) {
       const user = (api.getState() as RootState).auth.user;
       console.log(user);

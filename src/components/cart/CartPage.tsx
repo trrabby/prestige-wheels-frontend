@@ -44,7 +44,7 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
   //   user = verifyToken(token) as TUser;
   // }
   // console.log(user);
-
+  // console.log(token);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -58,6 +58,7 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                 "Content-Type": "application/json",
               },
             });
+            console.log(res);
             return res.data; // Return the product data
           })
         );
