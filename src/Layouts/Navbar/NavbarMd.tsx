@@ -93,7 +93,7 @@ export const NavbarMd = () => {
                   SIGN IN
                 </NavLink>
               )}
-              <Tooltip title={"Cart"} placement={"rightBottom"}>
+              <Tooltip title={"Cart"} placement={"topLeft"}>
                 <div onClick={handleOpenCartPage}>
                   <CartBadge />
                 </div>

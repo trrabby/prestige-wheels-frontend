@@ -1,5 +1,7 @@
 import {
   removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
   useCartItems,
 } from "@/redux/features/admin/productsManagementSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -20,6 +22,8 @@ import { HiDocumentCurrencyBangladeshi } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import CustomModal from "../CustomModal";
 import CustomEmpty from "../Empty";
+import { FiMinus } from "react-icons/fi";
+import { FaPlus } from "react-icons/fa6";
 
 interface CartPageProps {
   open: boolean;
@@ -28,7 +32,7 @@ interface CartPageProps {
 
 export default function CartPage({ open, setOpen }: CartPageProps) {
   const [cartArray, setCartArray] = useState<ICars[]>([]); // State to store the products
-  const cartArrayIds = useAppSelector(useCartItems); // Cart item IDs
+  const cartArrayIds = useAppSelector(useCartItems); // Cart item IDs with quantity info
   const token = useAppSelector(useCurrentToken); // Authentication token
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -38,19 +42,12 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
     setModalOpen(!modalOopen);
   };
 
-  // let user: TUser | undefined;
-
-  // if (token) {
-  //   user = verifyToken(token) as TUser;
-  // }
-  // console.log(user);
-  // console.log(token);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         // Fetch product details for each ID in cartArrayIds
         const responses = await Promise.all(
-          cartArrayIds.map(async (id) => {
+          cartArrayIds.map(async ({ id }) => {
             const res = await axios.get(`${config().URL}/cars/${id}`, {
               withCredentials: true,
               headers: {
@@ -58,14 +55,13 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                 "Content-Type": "application/json",
               },
             });
-            console.log(res);
             return res.data; // Return the product data
           })
         );
 
         // Count the quantity of each product using a Map
-        const quantityMap = cartArrayIds.reduce((map, id) => {
-          map.set(id, (map.get(id) || 0) + 1);
+        const quantityMap = cartArrayIds.reduce((map, { id, quantity }) => {
+          map.set(id, quantity); // Maintain the quantity for each product
           return map;
         }, new Map());
 
@@ -78,7 +74,6 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
             quantity, // Add quantity to product data
           };
         });
-
         // Filter duplicates and update cartArray
         const uniqueCartItems = Array.from(
           new Map(
@@ -94,8 +89,22 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
     fetchProducts();
   }, [cartArrayIds, token]); // Re-fetch when cartArrayIds or token changes
 
+  const totalPrice = cartArray
+    .reduce((total, product) => total + product.price * product.quantity, 0)
+    .toFixed(2);
+
+  const checkOutData = { orderedProduct: cartArray, totalPrice };
+
   const handleRemoveFromCart = (id: string) => {
     dispatch(removeFromCart(id));
+  };
+
+  const handleIncreaseQuantity = (id: string) => {
+    dispatch(increaseQuantity(id));
+  };
+
+  const handleDecreaseQuantity = (id: string) => {
+    dispatch(decreaseQuantity(id));
   };
 
   const handleNavigatingToProductPage = (id: string) => {
@@ -105,7 +114,6 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
 
   const handleCheckout = () => {
     handleModalOpen();
-    // navigate(`${user?.role}/my-order`);
   };
 
   return (
@@ -115,7 +123,6 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
       className="relative z-50"
     >
       <DialogBackdrop className="fixed inset-0 bg-black bg-opacity-30 transition-opacity" />
-
       <AnimatePresence>
         {open && (
           <motion.div
@@ -145,7 +152,7 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                       {cartArray.map((product) => (
                         <li
                           key={product._id}
-                          className="flex items-center gap-4 py-4 border-b "
+                          className="flex items-center gap-4 py-4 border-b"
                         >
                           <img
                             onClick={() =>
@@ -160,7 +167,7 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                               onClick={() =>
                                 handleNavigatingToProductPage(product._id)
                               }
-                              className="font-medium hover:underline hover: cursor-pointer"
+                              className="font-medium hover:underline cursor-pointer"
                             >
                               {product.model}
                             </p>
@@ -171,10 +178,28 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                               <HiDocumentCurrencyBangladeshi />
                               {product.price}
                             </p>
-                            {/* Display the Quantity of the product */}
                             <p className="text-sm text-gray-400">
                               Quantity: {product.quantity}
                             </p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() =>
+                                handleDecreaseQuantity(product._id)
+                              }
+                              className="text-base text-gray-500 border p-1 rounded-full hover:bg-primary hover:duration-500 hover:text-third"
+                            >
+                              <FiMinus />
+                            </button>
+                            <p>{product.quantity}</p>
+                            <button
+                              onClick={() =>
+                                handleIncreaseQuantity(product._id)
+                              }
+                              className=" text-gray-500 border p-1 rounded-full hover:bg-accent hover:duration-500 hover:text-third text-base"
+                            >
+                              <FaPlus />
+                            </button>
                           </div>
                           <button
                             onClick={() => handleRemoveFromCart(product._id)}
@@ -190,16 +215,7 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                   <div className="mt-auto border-t pt-4">
                     <div className="flex justify-between font-semibold text-lg">
                       <p>Subtotal</p>
-                      <p>
-                        $
-                        {cartArray
-                          .reduce(
-                            (total, product) =>
-                              total + product.price * product.quantity,
-                            0
-                          )
-                          .toFixed(2)}
-                      </p>
+                      <p>${totalPrice}</p>
                     </div>
 
                     <button
@@ -208,7 +224,11 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                     >
                       Checkout
                     </button>
-                    <CustomModal open={modalOopen} setOpen={setModalOpen} />
+                    <CustomModal
+                      checkOutData={checkOutData}
+                      open={modalOopen}
+                      setOpen={setModalOpen}
+                    />
                     <button
                       onClick={() => setOpen(false)}
                       className="mt-2 w-full text-indigo-600 hover:underline"
