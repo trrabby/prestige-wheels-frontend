@@ -11,7 +11,7 @@ import Products from "@/Pages/products/Products";
 import Register from "@/Pages/Register";
 import userPaths from "./user.routes";
 import Profile from "@/Pages/Profile";
-import UpdateCar from "@/Pages/dashboard/admin/UpdateCar";
+import UpdateCar from "@/Pages/dashboard/admin/productManagement/UpdateCar";
 import CarDetails from "@/Pages/products/CarDetails";
 
 const router = createBrowserRouter([

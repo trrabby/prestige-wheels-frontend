@@ -1,4 +1,4 @@
-import { useCartItems } from "@/redux/features/admin/productsManagementSlice";
+import { useCartItems } from "@/redux/features/admin/productManagement/productsManagementSlice";
 import { useAppSelector } from "@/redux/hook";
 import { Avatar, Badge, Space } from "antd";
 import { ImCart } from "react-icons/im";

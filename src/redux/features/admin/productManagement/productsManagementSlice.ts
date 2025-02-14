@@ -1,6 +1,6 @@
 import { RootState } from "@/redux/store";
 import { createSlice } from "@reduxjs/toolkit";
-import { logout } from "../auth/authSlice";
+import { logout } from "../../auth/authSlice";
 
 type TCartBadgeState = {
   cart: { id: string; quantity: number }[]; // Store both product ID and quantity

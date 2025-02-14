@@ -1,7 +1,7 @@
 import CarCard from "@/components/CarCard";
 import { GradientCircularProgress } from "@/components/Progress";
 import { SectionHead } from "@/components/SectionHead";
-import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
+import { useGetAllProductsQuery } from "@/redux/features/admin/productManagement/productsManagementApi";
 
 const Products = () => {
   const { data: CarsData, isLoading } = useGetAllProductsQuery([

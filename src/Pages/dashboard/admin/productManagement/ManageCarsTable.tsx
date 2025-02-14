@@ -8,7 +8,7 @@ import Highlighter from "react-highlight-words";
 import { ICars } from "@/types/cars.type";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
-import { useDeleteCarMutation } from "@/redux/features/admin/productsManagementApi";
+import { useDeleteCarMutation } from "@/redux/features/admin/productManagement/productsManagementApi";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 

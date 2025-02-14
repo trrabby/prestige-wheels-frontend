@@ -1,6 +1,6 @@
 import { LoadingSpinnerCircle } from "@/components/LoadingSpinnerCircle";
 import { SectionHead } from "@/components/SectionHead";
-import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
+import { useGetAllProductsQuery } from "@/redux/features/admin/productManagement/productsManagementApi";
 import ManageCarsTable from "./ManageCarsTable";
 
 export default function ManageCars() {

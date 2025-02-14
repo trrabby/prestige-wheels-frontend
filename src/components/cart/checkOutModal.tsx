@@ -3,21 +3,21 @@ import React, { useRef, useState } from "react";
 import { Button, Divider, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import CustomForm from "./forms/CustomForm";
+import CustomForm from "../forms/CustomForm";
 import { FieldValues } from "react-hook-form";
-import CustomInput from "./forms/CustomInput";
-import { LoadingSpinner } from "./LoadingSpinner";
-import { useCreateOrderMutation } from "@/redux/features/admin/orderManagementApi";
+import CustomInput from "../forms/CustomInput";
+import { LoadingSpinner } from "../LoadingSpinner";
+import { useCreateOrderMutation } from "@/redux/features/admin/orderManagement/orderManagementApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
-import CustomTextArea from "./forms/CustomTextArea";
+import CustomTextArea from "../forms/CustomTextArea";
 import { HiDocumentCurrencyBangladeshi } from "react-icons/hi2";
 import { FaUserSecret } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { clearCart } from "@/redux/features/admin/productsManagementSlice";
+import { clearCart } from "@/redux/features/admin/productManagement/productsManagementSlice";
 
 interface CustomModalProps {
   open: boolean;

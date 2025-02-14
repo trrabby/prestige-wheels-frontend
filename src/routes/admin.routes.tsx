@@ -1,7 +1,8 @@
 import AdminHome from "@/Pages/dashboard/admin/AdminHome";
-import Users from "@/Pages/dashboard/admin/Users";
-import AddCar from "@/Pages/dashboard/admin/AddCar";
-import ManageCars from "@/Pages/dashboard/admin/ManageCars";
+import Users from "@/Pages/dashboard/admin/userManagement/Users";
+import AddCar from "@/Pages/dashboard/admin/productManagement/AddCar";
+import ManageCars from "@/Pages/dashboard/admin/productManagement/ManageCars";
+import ManageOrders from "@/Pages/dashboard/admin/orderManagement/ManageOrders";
 
 const AdminPaths = [
   {
@@ -21,6 +22,16 @@ const AdminPaths = [
         name: "Manage Cars",
         path: "manage-cars",
         element: <ManageCars />,
+      },
+    ],
+  },
+  {
+    name: "Orders Management",
+    children: [
+      {
+        name: "All Orders",
+        path: "orders",
+        element: <ManageOrders />,
       },
     ],
   },

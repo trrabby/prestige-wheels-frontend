@@ -1,10 +1,10 @@
-import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
+import { useGetAllProductsQuery } from "@/redux/features/admin/productManagement/productsManagementApi";
 import { Link, useParams } from "react-router-dom";
 import { HiCurrencyBangladeshi } from "react-icons/hi";
 import { Skeleton, Tooltip } from "antd";
 import { FaCartArrowDown } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { setToCart } from "@/redux/features/admin/productsManagementSlice";
+import { setToCart } from "@/redux/features/admin/productManagement/productsManagementSlice";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { FaPenToSquare } from "react-icons/fa6";
 import { toast } from "sonner";

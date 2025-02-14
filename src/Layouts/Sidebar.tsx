@@ -46,7 +46,7 @@ const Sidebar = ({ collapsed }: any) => {
       width={250}
     >
       <Menu
-        className="pt-20 bg-white  lg:text-lg text-sm  "
+        className="pt-20 bg-white lg:text-base text-sm  "
         mode="inline"
         defaultSelectedKeys={["4"]}
         items={sidebarItems}

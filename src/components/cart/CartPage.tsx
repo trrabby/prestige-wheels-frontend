@@ -3,7 +3,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
   useCartItems,
-} from "@/redux/features/admin/productsManagementSlice";
+} from "@/redux/features/admin/productManagement/productsManagementSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ICars } from "@/types/cars.type";
 import {
@@ -20,7 +20,7 @@ import { config } from "@/config";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { HiDocumentCurrencyBangladeshi } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import CustomModal from "../CustomModal";
+import CustomModal from "./checkOutModal";
 import CustomEmpty from "../Empty";
 import { FiMinus } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";

@@ -1,4 +1,4 @@
-import { useGetAllProductsQuery } from "@/redux/features/admin/productsManagementApi";
+import { useGetAllProductsQuery } from "@/redux/features/admin/productManagement/productsManagementApi";
 
 export const OptionMaker = () => {
   // Brand Options
