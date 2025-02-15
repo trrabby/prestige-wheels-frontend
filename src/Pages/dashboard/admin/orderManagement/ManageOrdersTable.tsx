@@ -35,9 +35,11 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
   const data: OrderDataType[] = ordersData.map((order) => ({
     key: order._id,
     customerName: order.customerInfo.name,
+    customerInfo: order.customerInfo,
     email: order.email,
     phone: order.customerInfo.number,
     city: order.customerInfo.city,
+    orderInfo: order.orderInfo,
     totalPrice: order.totalPrice,
     paymentStatus: order.paymentStatus,
     orderStatus: order.orderStatus,
@@ -217,6 +219,12 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       render: (record) => {
         return (
           <div className="flex gap-2 items-center justify-center">
+            <ManageOrderModal
+              open={open}
+              setOpen={setOpen}
+              ordersData={record}
+            />
+            ;
             <Tooltip
               placement="top"
               title="Update order status"
@@ -230,11 +238,6 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
                 {" "}
                 <GrDocumentUpdate className="hover:scale-125 duration-500" />
               </button>
-              <ManageOrderModal
-                open={open}
-                setOpen={setOpen}
-                orderData={record}
-              />
             </Tooltip>
           </div>
         );

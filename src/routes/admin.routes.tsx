@@ -29,8 +29,8 @@ const AdminPaths = [
     name: "Orders Management",
     children: [
       {
-        name: "All Orders",
-        path: "orders",
+        name: "Manage Orders",
+        path: "manage-orders",
         element: <ManageOrders />,
       },
     ],

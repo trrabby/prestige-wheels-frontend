@@ -10,11 +10,15 @@ import CustomSelect from "@/components/forms/CustomSelect";
 interface ManageOrderModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  orderData: any;
+  ordersData: any;
 }
 
-const ManageOrderModal = ({ open, setOpen }: ManageOrderModalProps) => {
-  // console.log(checkOutData);
+const ManageOrderModal = ({
+  open,
+  setOpen,
+  ordersData,
+}: ManageOrderModalProps) => {
+  console.log(ordersData);
 
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({
@@ -50,7 +54,6 @@ const ManageOrderModal = ({ open, setOpen }: ManageOrderModalProps) => {
   return (
     <>
       <Modal
-        className="bg-transparent"
         title={
           <div
             className="text-center text-2xl pb-5"
@@ -70,6 +73,7 @@ const ManageOrderModal = ({ open, setOpen }: ManageOrderModalProps) => {
           </div>
         }
         open={open}
+        onOk={handleCancel}
         onCancel={handleCancel}
         modalRender={(modal) => {
           return (
