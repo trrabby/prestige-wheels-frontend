@@ -224,7 +224,6 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
               setOpen={setOpen}
               ordersData={record}
             />
-            ;
             <Tooltip
               placement="top"
               title="Update order status"

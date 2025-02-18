@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef, useState } from "react";
-import { Button, Divider, Modal } from "antd";
-import type { DraggableData, DraggableEvent } from "react-draggable";
-import Draggable from "react-draggable";
+import React, { useState } from "react";
+import { Button, Divider, Modal, Tag } from "antd";
 import { FieldValues } from "react-hook-form";
 import CustomForm from "@/components/forms/CustomForm";
 import CustomSelect from "@/components/forms/CustomSelect";
@@ -18,34 +16,22 @@ const ManageOrderModal = ({
   setOpen,
   ordersData,
 }: ManageOrderModalProps) => {
-  console.log(ordersData);
+  const {
+    key,
+    customerInfo,
+    orderInfo,
+    email,
+    orderStatus,
+    paymentStatus,
+    totalPrice,
+  } = ordersData;
 
+  console.log(ordersData);
   const [disabled, setDisabled] = useState(true);
-  const [bounds, setBounds] = useState({
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-  });
-  const draggleRef = useRef<HTMLDivElement>(null!);
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     setOpen(false);
-  };
-
-  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
-    const { clientWidth, clientHeight } = window.document.documentElement;
-    const targetRect = draggleRef.current?.getBoundingClientRect();
-    if (!targetRect) {
-      return;
-    }
-    setBounds({
-      left: -targetRect.left + uiData.x,
-      right: clientWidth - (targetRect.right - uiData.x),
-      top: -targetRect.top + uiData.y,
-      bottom: clientHeight - (targetRect.bottom - uiData.y),
-    });
   };
 
   const onSubmit = async (data: FieldValues) => {
@@ -75,22 +61,68 @@ const ManageOrderModal = ({
         open={open}
         onOk={handleCancel}
         onCancel={handleCancel}
+        footer={null}
+        styles={{
+          mask: { backgroundColor: "transparent" },
+        }}
         modalRender={(modal) => {
-          return (
-            <Draggable
-              disabled={disabled}
-              bounds={bounds}
-              nodeRef={draggleRef}
-              onStart={(event, uiData) => onStart(event, uiData)}
-            >
-              <div ref={draggleRef}>{modal}</div>
-            </Draggable>
-          );
+          return <div>{modal}</div>;
         }}
       >
         <CustomForm onSubmit={onSubmit}>
-          <Divider>"Order Information"</Divider>
+          <Divider>Order No: {key}</Divider>
+          <div className="flex flex-col gap-2 text-base">
+            <div>Number of products: {orderInfo.length}</div>
+            <div className="flex gap-2">
+              Payment Status:
+              <Tag
+                color={
+                  paymentStatus === "Paid"
+                    ? "green"
+                    : paymentStatus === "Pending"
+                    ? "blue"
+                    : paymentStatus === "Failed"
+                    ? "black"
+                    : "red"
+                }
+              >
+                {paymentStatus}
+              </Tag>
+            </div>
+
+            <div className="flex gap-2">
+              Order Status:
+              <Tag
+                color={
+                  orderStatus === "Delivered"
+                    ? "cyan"
+                    : orderStatus === "Shipped"
+                    ? "blue"
+                    : orderStatus === "Confirmed"
+                    ? "green"
+                    : "red"
+                }
+              >
+                {orderStatus}
+              </Tag>
+            </div>
+
+            <div>Total Price: {totalPrice}</div>
+          </div>
+          <Divider>Customer Information</Divider>
+          <div className="text-base">
+            <div>Name: {customerInfo?.name}</div>
+            <div>Email: {email}</div>
+            <div>City/District: {customerInfo?.city}</div>
+            <div>Sub-District: {customerInfo?.subDistrict}</div>
+            <div>Post Office: {customerInfo?.postOffice}</div>
+            <div>Colony: {customerInfo?.clolony}</div>
+          </div>
+          <Divider>Order Confirmation</Divider>
           <CustomSelect
+            defaultValue={orderStatus}
+            placeholder="Confirm order here"
+            label="Confirm Order"
             options={[
               {
                 value: "Pending",

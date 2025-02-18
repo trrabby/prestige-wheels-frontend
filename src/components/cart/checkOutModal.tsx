@@ -84,7 +84,7 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
       const res = await createOrder(checkOutOrder).unwrap();
       console.log(res);
       toast.success(`${res.message}`);
-      navigate(`/admin/dashboard`);
+      navigate(`/${user?.role}/dashboard`);
       dispatch(clearCart());
     } catch (err) {
       console.log(err);
