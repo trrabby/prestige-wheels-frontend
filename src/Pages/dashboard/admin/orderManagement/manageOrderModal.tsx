@@ -16,6 +16,9 @@ const ManageOrderModal = ({
   setOpen,
   ordersData,
 }: ManageOrderModalProps) => {
+  console.log(ordersData);
+  const [disabled, setDisabled] = useState(true);
+  if (!ordersData) return null;
   const {
     key,
     customerInfo,
@@ -25,10 +28,7 @@ const ManageOrderModal = ({
     paymentStatus,
     totalPrice,
   } = ordersData;
-
-  console.log(ordersData);
-  const [disabled, setDisabled] = useState(true);
-
+  console.log(orderStatus);
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     setOpen(false);
@@ -63,7 +63,7 @@ const ManageOrderModal = ({
         onCancel={handleCancel}
         footer={null}
         styles={{
-          mask: { backgroundColor: "transparent" },
+          mask: { backgroundColor: "transparent", boxShadow: "none" },
         }}
         modalRender={(modal) => {
           return <div>{modal}</div>;

@@ -114,6 +114,7 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
         }
         open={open}
         onCancel={handleCancel}
+        footer={null}
         modalRender={(modal) => (
           <Draggable
             disabled={disabled}

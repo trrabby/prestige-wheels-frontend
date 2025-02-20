@@ -30,8 +30,15 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderDataType | null>(
+    null
+  );
   const [open, setOpen] = useState(false);
 
+  const handleOpenModal = (order: OrderDataType) => {
+    setSelectedOrder(order);
+    setOpen(true);
+  };
   const data: OrderDataType[] = ordersData.map((order) => ({
     key: order._id,
     customerName: order.customerInfo.name,
@@ -219,11 +226,6 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       render: (record) => {
         return (
           <div className="flex gap-2 items-center justify-center">
-            <ManageOrderModal
-              open={open}
-              setOpen={setOpen}
-              ordersData={record}
-            />
             <Tooltip
               placement="top"
               title="Update order status"
@@ -231,7 +233,7 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
               key={"toolTipcolor"}
             >
               <button
-                onClick={() => setOpen(true)}
+                onClick={() => handleOpenModal(record)}
                 className=" bg-accent p-2 text-center text-xs font-bold  text-white hover:bg-[#13C2C2] hover:text-white hover:scale-110 hover:duration-500 flex items-center gap-2 justify-center"
               >
                 {" "}
@@ -249,7 +251,18 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
     },
   ];
 
-  return <Table<OrderDataType> columns={columns} dataSource={data} />;
+  return (
+    <>
+      <Table<OrderDataType> columns={columns} dataSource={data} />;
+      {open && selectedOrder && (
+        <ManageOrderModal
+          open={open}
+          setOpen={setOpen}
+          ordersData={selectedOrder}
+        />
+      )}
+    </>
+  );
 };
 
 export default ManageOrdersTable;
