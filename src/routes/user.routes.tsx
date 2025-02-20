@@ -1,5 +1,6 @@
 import UserHome from "@/Pages/dashboard/user/UserHome";
 import { MyWishlist } from "@/Pages/dashboard/user/MyWishlist";
+import MyOrders from "@/Pages/dashboard/user/MyOrders";
 
 const userPaths = [
   {
@@ -8,8 +9,13 @@ const userPaths = [
     element: <UserHome></UserHome>,
   },
   {
-    name: "Blogs",
+    name: "Orders",
     children: [
+      {
+        name: "My Orders",
+        path: "my-orders",
+        element: <MyOrders />,
+      },
       {
         name: "My Wishlist",
         path: "my-wishlist",

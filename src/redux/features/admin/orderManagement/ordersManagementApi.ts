@@ -5,7 +5,7 @@ import { IOrders } from "@/types/orders.type";
 
 const ordersManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllorders: builder.query({
+    getAllOrders: builder.query({
       query: (args) => {
         // console.log(args);
         const params = new URLSearchParams();
@@ -31,33 +31,55 @@ const ordersManagementApi = baseApi.injectEndpoints({
       },
     }),
 
-    // addCar: builder.mutation({
-    //   query: (data) => ({
-    //     url: "/cars/create-car",
-    //     method: "POST",
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ["cars"],
-    // }),
+    createOrder: builder.mutation({
+      query: (data) => ({
+        url: "/orders/order-car",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["orders"],
+    }),
 
-    // deleteCar: builder.mutation({
-    //   query: (id: string) => ({
-    //     url: `/cars/delete-car/${id}`,
-    //     method: "PUT",
-    //     body: { isDeleted: true },
-    //   }),
-    //   invalidatesTags: ["cars"],
-    // }),
+    updateOrder: builder.mutation({
+      query: ({ id, payload }: { id: string; payload: Partial<IOrders> }) => ({
+        url: `/orders/${id}`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["orders"],
+    }),
 
-    // updateCar: builder.mutation({
-    //   query: ({ id, updatedData }: { id: string; updatedData: FormData }) => ({
-    //     url: `/cars/${id}`,
-    //     method: "PATCH",
-    //     body: updatedData,
-    //   }),
-    //   invalidatesTags: ["cars"],
-    // }),
+    getMyOrders: builder.query({
+      query: (args) => {
+        // console.log(args);
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: TQueryParam) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: "/orders/my-orders",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["my_orders"],
+      transformResponse: (response: any) => {
+        return {
+          data: response?.data?.result as IOrders[],
+          meta: response?.data?.meta,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetAllordersQuery } = ordersManagementApi;
+export const {
+  useGetAllOrdersQuery,
+  useCreateOrderMutation,
+  useUpdateOrderMutation,
+  useGetMyOrdersQuery,
+} = ordersManagementApi;

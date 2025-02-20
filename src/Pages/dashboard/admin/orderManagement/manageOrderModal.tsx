@@ -4,19 +4,25 @@ import { Button, Divider, Modal, Tag } from "antd";
 import { FieldValues } from "react-hook-form";
 import CustomForm from "@/components/forms/CustomForm";
 import CustomSelect from "@/components/forms/CustomSelect";
+import { useUpdateOrderMutation } from "@/redux/features/admin/orderManagement/ordersManagementApi";
+import { GradientCircularProgress } from "@/components/Progress";
+import { toast } from "sonner";
 
 interface ManageOrderModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   ordersData: any;
+  setOrdersData: (data: any) => void; // Add setter function
 }
 
 const ManageOrderModal = ({
   open,
   setOpen,
   ordersData,
+  setOrdersData,
 }: ManageOrderModalProps) => {
-  console.log(ordersData);
+  // console.log(ordersData);
+  const [updateOrder, { isLoading }] = useUpdateOrderMutation();
   const [disabled, setDisabled] = useState(true);
   if (!ordersData) return null;
   const {
@@ -28,22 +34,49 @@ const ManageOrderModal = ({
     paymentStatus,
     totalPrice,
   } = ordersData;
-  console.log(orderStatus);
+  // console.log(orderStatus);
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center">
+        <GradientCircularProgress />
+      </div>
+    );
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     setOpen(false);
   };
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
+    const toastId = toast.loading("Updating order data, Please Wait...");
+
+    try {
+      const res = await updateOrder({
+        id: key as string,
+        payload: data,
+      }).unwrap();
+
+      if (res.success === true) {
+        toast.success(`${res.message}`, {
+          id: toastId,
+        });
+      } // Update modal data with new values
+      setOrdersData((prevData: any) => ({
+        ...prevData,
+        ...data, // Merge updated fields
+      }));
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
+
   return (
     <>
       <Modal
         title={
           <div
-            className="text-center text-2xl pb-5"
-            style={{ width: "100%", cursor: "move" }}
+            className="text-center text-2xl pb-5 "
+            style={{ width: "100%", cursor: "text" }}
             onMouseOver={() => {
               if (disabled) {
                 setDisabled(false);
@@ -127,6 +160,10 @@ const ManageOrderModal = ({
               {
                 value: "Pending",
                 label: "Pending",
+              },
+              {
+                value: "Confirmed",
+                label: "Confirmed",
               },
               {
                 value: "Shipped",

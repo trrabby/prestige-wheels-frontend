@@ -7,7 +7,7 @@ import CustomForm from "../forms/CustomForm";
 import { FieldValues } from "react-hook-form";
 import CustomInput from "../forms/CustomInput";
 import { LoadingSpinner } from "../LoadingSpinner";
-import { useCreateOrderMutation } from "@/redux/features/admin/orderManagement/orderManagementApi";
+import { useCreateOrderMutation } from "@/redux/features/admin/orderManagement/ordersManagementApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";

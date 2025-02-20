@@ -5,8 +5,7 @@ import type { InputRef, TableColumnsType, TableColumnType } from "antd";
 import { Button, Input, Space, Table, Tag, Tooltip } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
-import { GrDocumentUpdate } from "react-icons/gr";
-import ManageOrderModal from "./manageOrderModal";
+import { MdDeleteOutline } from "react-icons/md";
 
 interface OrderDataType {
   key: string;
@@ -22,23 +21,15 @@ interface OrderDataType {
 
 type DataIndex = keyof OrderDataType;
 
-interface ManageOrdersTableProps {
+interface MyOrdersTableProps {
   ordersData: any[];
 }
 
-const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
+const MyOrdersTable = ({ ordersData }: MyOrdersTableProps) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
-  const [selectedOrder, setSelectedOrder] = useState<OrderDataType | null>(
-    null
-  );
-  const [open, setOpen] = useState(false);
 
-  const handleOpenModal = (order: OrderDataType) => {
-    setSelectedOrder(order);
-    setOpen(true);
-  };
   const data: OrderDataType[] = ordersData.map((order) => ({
     key: order._id,
     customerName: order.customerInfo.name,
@@ -182,21 +173,33 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       dataIndex: "paymentStatus",
       key: "paymentStatus",
       className: "text-center",
-      render: (status) => (
-        <Tag
-          color={
-            status === "Paid"
-              ? "green"
-              : status === "Pending"
-              ? "blue"
-              : status === "Failed"
-              ? "black"
-              : "red"
-          }
-        >
-          {status}
-        </Tag>
-      ),
+      render: (status) =>
+        status === "Unpaid" ? (
+          <Tooltip
+            placement="top"
+            title="Pay to complete order"
+            color={"red"}
+            key={"toolTipPay"}
+          >
+            <button className="px-5 bg-accent text-white rounded-sm hover:scale-105 duration-500 hover:bg-primary">
+              Pay
+            </button>
+          </Tooltip>
+        ) : (
+          <Tag
+            color={
+              status === "Paid"
+                ? "green"
+                : status === "Pending"
+                ? "blue"
+                : status === "Failed"
+                ? "black"
+                : "red"
+            }
+          >
+            {status}
+          </Tag>
+        ),
     },
     {
       title: "Order Status",
@@ -220,7 +223,7 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       ),
     },
     {
-      title: "Update",
+      title: "Cancel Order",
       key: "x",
       align: "center",
       render: (record) => {
@@ -228,16 +231,16 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
           <div className="flex gap-2 items-center justify-center">
             <Tooltip
               placement="top"
-              title="Update order status"
-              color={"cyan"}
+              title="Cancel Order"
+              color={"red"}
               key={"toolTipcolor"}
             >
               <button
-                onClick={() => handleOpenModal(record)}
-                className=" bg-accent p-2 text-center text-xs font-bold  text-white hover:bg-[#13C2C2] hover:text-white hover:scale-110 hover:duration-500 flex items-center gap-2 justify-center"
+                onClick={() => console.log(record.key)}
+                className=" bg-accent p-2 text-center text-xs font-bold  text-white hover:bg-red-600 hover:text-white hover:scale-110 hover:duration-500 flex items-center gap-2 justify-center"
               >
                 {" "}
-                <GrDocumentUpdate className="hover:scale-125 duration-500" />
+                <MdDeleteOutline className="hover:scale-125 duration-500" />
               </button>
             </Tooltip>
           </div>
@@ -254,16 +257,8 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
   return (
     <>
       <Table<OrderDataType> columns={columns} dataSource={data} />;
-      {open && selectedOrder && (
-        <ManageOrderModal
-          open={open}
-          setOpen={setOpen}
-          ordersData={selectedOrder}
-          setOrdersData={setSelectedOrder}
-        />
-      )}
     </>
   );
 };
 
-export default ManageOrdersTable;
+export default MyOrdersTable;

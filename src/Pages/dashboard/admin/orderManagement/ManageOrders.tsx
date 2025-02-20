@@ -1,5 +1,5 @@
 import { GradientCircularProgress } from "@/components/Progress";
-import { useGetAllOrdersQuery } from "@/redux/features/admin/orderManagement/orderManagementApi";
+import { useGetAllOrdersQuery } from "@/redux/features/admin/orderManagement/ordersManagementApi";
 import ManageOrdersTable from "./ManageOrdersTable";
 
 const ManageOrders = () => {
