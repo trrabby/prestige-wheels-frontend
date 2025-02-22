@@ -84,11 +84,20 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
       const res = await createOrder(checkOutOrder).unwrap();
       console.log(res);
       toast.success(`${res.message}`);
-      navigate(`/${user?.role}/dashboard`);
+      navigate(`/${user?.role}/my-orders`);
       dispatch(clearCart());
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
-      toast.error("Something went wrong");
+      if (err.data.message) {
+        toast.error(
+          `${err.data.message.split(":")[1]}:${err.data.message.split(":")[2]}`,
+          {
+            duration: 5000,
+          }
+        );
+      } else {
+        toast.error(`Something went wrong`);
+      }
     }
   };
   return (
@@ -138,7 +147,6 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
                   {user.email}
                 </p>
                 <p className="text-lg flex gap-2 items-center justify-start">
-                  Payable Amount:{" "}
                   <span className="text-primary text-bold flex gap-2 items-center justify-center">
                     <HiDocumentCurrencyBangladeshi />
                     {checkOutData.totalPrice} BDT
@@ -152,6 +160,7 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
               type="number"
               label="Number"
               placeholder="Your mobile number"
+              required={true}
             />
           </div>
           <Divider>Address</Divider>
@@ -161,24 +170,28 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
               type="text"
               label="City/District"
               placeholder="You city/district"
+              required={true}
             />
             <CustomInput
               name="subDistrict"
               type="text"
               label="Sub District"
               placeholder="You sub-district"
+              required={true}
             />
             <CustomInput
               name="postOffice"
               type="text"
               label="Post Office"
               placeholder="You post code"
+              required={true}
             />
             <CustomInput
               name="clolony"
               type="text"
               label="Colony"
               placeholder="You colony/area"
+              required={true}
             />
           </div>
           <Divider>If any request</Divider>

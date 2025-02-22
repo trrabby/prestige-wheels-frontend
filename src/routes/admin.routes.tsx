@@ -3,6 +3,7 @@ import Users from "@/Pages/dashboard/admin/userManagement/Users";
 import AddCar from "@/Pages/dashboard/admin/productManagement/AddCar";
 import ManageCars from "@/Pages/dashboard/admin/productManagement/ManageCars";
 import ManageOrders from "@/Pages/dashboard/admin/orderManagement/ManageOrders";
+import MyOrders from "@/Pages/dashboard/user/MyOrders";
 
 const AdminPaths = [
   {
@@ -32,6 +33,11 @@ const AdminPaths = [
         name: "Manage Orders",
         path: "manage-orders",
         element: <ManageOrders />,
+      },
+      {
+        name: "My Orders",
+        path: "my-orders",
+        element: <MyOrders />,
       },
     ],
   },

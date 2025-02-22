@@ -37,7 +37,7 @@ const ordersManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["orders"],
+      invalidatesTags: ["orders", "my_orders"],
     }),
 
     updateOrder: builder.mutation({
@@ -46,7 +46,7 @@ const ordersManagementApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: payload,
       }),
-      invalidatesTags: ["orders"],
+      invalidatesTags: ["orders", "my_orders"],
     }),
 
     getMyOrders: builder.query({
@@ -61,7 +61,7 @@ const ordersManagementApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: "/orders/my-orders",
+          url: "orders/my-orders",
           method: "GET",
           params: params,
         };

@@ -6,6 +6,7 @@ import { Button, Input, Space, Table, Tag, Tooltip } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { MdDeleteOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 interface OrderDataType {
   key: string;
@@ -173,17 +174,19 @@ const MyOrdersTable = ({ ordersData }: MyOrdersTableProps) => {
       dataIndex: "paymentStatus",
       key: "paymentStatus",
       className: "text-center",
-      render: (status) =>
+      render: (status, Record) =>
         status === "Unpaid" ? (
           <Tooltip
             placement="top"
             title="Pay to complete order"
-            color={"red"}
+            color={"cyan"}
             key={"toolTipPay"}
           >
-            <button className="px-5 bg-accent text-white rounded-sm hover:scale-105 duration-500 hover:bg-primary">
-              Pay
-            </button>
+            <Link to={`/payment/${Record.key}`}>
+              <button className="px-5 bg-accent text-white rounded-sm hover:scale-105 duration-500 hover:bg-cyan-400">
+                Pay
+              </button>
+            </Link>
           </Tooltip>
         ) : (
           <Tag

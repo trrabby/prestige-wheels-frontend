@@ -13,6 +13,7 @@ import userPaths from "./user.routes";
 import Profile from "@/Pages/Profile";
 import UpdateCar from "@/Pages/dashboard/admin/productManagement/UpdateCar";
 import CarDetails from "@/Pages/products/CarDetails";
+import Payment from "@/Pages/dashboard/Payment";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/my-profile",
         element: <Profile></Profile>,
+      },
+      {
+        path: "/payment/:id",
+        element: <Payment />,
       },
     ],
   },
