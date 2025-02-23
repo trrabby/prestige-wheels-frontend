@@ -23,9 +23,15 @@ interface CustomModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   checkOutData: any;
+  setCartPageOpen: any;
 }
 
-const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
+const CustomModal = ({
+  open,
+  setOpen,
+  checkOutData,
+  setCartPageOpen,
+}: CustomModalProps) => {
   // console.log(checkOutData);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
   const dispatch = useAppDispatch();
@@ -83,8 +89,10 @@ const CustomModal = ({ open, setOpen, checkOutData }: CustomModalProps) => {
     try {
       const res = await createOrder(checkOutOrder).unwrap();
       console.log(res);
-      toast.success(`${res.message}`);
-      navigate(`/${user?.role}/my-orders`);
+      toast.success(`${res.message}` || "Order paced successfully");
+      navigate(`/payment/${res.data[0]._id}`);
+      setOpen(false);
+      setCartPageOpen(false);
       dispatch(clearCart());
     } catch (err: any) {
       console.log(err);

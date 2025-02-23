@@ -228,6 +228,7 @@ export default function CartPage({ open, setOpen }: CartPageProps) {
                       checkOutData={checkOutData}
                       open={modalOopen}
                       setOpen={setModalOpen}
+                      setCartPageOpen={setOpen}
                     />
                     <button
                       onClick={() => setOpen(false)}
