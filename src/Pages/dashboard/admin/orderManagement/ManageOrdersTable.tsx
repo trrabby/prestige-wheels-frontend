@@ -34,7 +34,7 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
     null
   );
   const [open, setOpen] = useState(false);
-  console.log(ordersData);
+  // console.log(ordersData);
   const handleOpenModal = (order: OrderDataType) => {
     setSelectedOrder(order);
     setOpen(true);

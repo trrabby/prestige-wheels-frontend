@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { Button, Divider, Modal, Tag } from "antd";
@@ -27,7 +28,7 @@ const ManageUserModal = ({
   if (!userData) return null;
   const { key, name, email, imgUrl, role, status, isDeleted } = userData;
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
+    // console.log(e);
     setOpen(false);
   };
 
@@ -50,7 +51,7 @@ const ManageUserModal = ({
         ...data, // Merge updated fields
       }));
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Something went wrong", { id: toastId });
     }
   };

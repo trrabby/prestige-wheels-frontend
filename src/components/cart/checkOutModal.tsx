@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState } from "react";
 import { Button, Divider, Modal } from "antd";
@@ -53,7 +54,7 @@ const CustomModal = ({
   const draggleRef = useRef<HTMLDivElement>(null!);
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
+    // console.log(e);
     setOpen(false);
   };
 
@@ -88,7 +89,7 @@ const CustomModal = ({
 
     try {
       const res = await createOrder(checkOutOrder).unwrap();
-      console.log(res);
+      // console.log(res);
       toast.success(`${res.message}` || "Order paced successfully");
       navigate(`/payment/${res.data[0]._id}`);
       setOpen(false);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Form, Input, Row } from "antd";
 import { Controller, FieldValues } from "react-hook-form";
 import { useRegisterMutation } from "../redux/features/auth/authApi";
@@ -19,23 +20,23 @@ const Register = () => {
     const inputValues = { ...data };
     delete inputValues?.image;
 
-    console.log(inputValues, image);
+    // console.log(inputValues, image);
     // Create a FormData object and append the data
     const formData = new FormData();
     formData.append("data", JSON.stringify(inputValues));
     formData.append("file", image);
 
     const toastId = toast.loading("You are being registered. Please Wait");
-    console.log(formData);
+    // console.log(formData);
     try {
-      const res = await register(formData).unwrap();
-      console.log(res);
+      await register(formData).unwrap();
+      // console.log(res);
       toast.success("Registration Successfull, Please Sign In", {
         id: toastId,
       });
       navigate(`/login`);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Something went wrong", { id: toastId });
     }
   };

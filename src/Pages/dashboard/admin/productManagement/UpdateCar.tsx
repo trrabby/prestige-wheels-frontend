@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomForm from "@/components/forms/CustomForm";
 import CustomInput from "@/components/forms/CustomInput";
@@ -71,7 +72,7 @@ const UpdateCar = () => {
   // console.log(defaultDate); // Ensure this logs a valid moment object
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
     if (data.quantity > 0) {
       data.inStock = true;
     }
@@ -107,12 +108,12 @@ const UpdateCar = () => {
     delete inputValues?.image;
 
     formData.append("data", JSON.stringify(inputValues));
-    console.log(inputValues, imgArray);
+    // console.log(inputValues, imgArray);
 
     const toastId = toast.loading("Updating car data, Please Wait...");
     try {
       const res = await updateCar({ id: id!, updatedData: formData }).unwrap();
-      console.log(res);
+      // console.log(res);
       if (res.success === true) {
         toast.success("Data updated successfully", {
           id: toastId,
@@ -120,7 +121,7 @@ const UpdateCar = () => {
       }
       navigate(`/products/cars/${id}`);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Something went wrong", { id: toastId });
     }
   };

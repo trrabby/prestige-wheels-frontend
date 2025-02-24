@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
@@ -311,7 +312,7 @@ const ManageCarsTable = ({ carsData }: ManageCarsTableProps) => {
             toast.success("Car deleted successfully", { id: "deleteCar" });
           }
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         }
       }
     });

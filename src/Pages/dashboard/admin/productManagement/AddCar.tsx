@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomForm from "@/components/forms/CustomForm";
 import CustomInput from "@/components/forms/CustomInput";
@@ -69,13 +70,13 @@ const AddCar = () => {
     }
 
     formData.append("data", JSON.stringify(inputValues));
-    console.log(inputValues, imgArray);
+    // console.log(inputValues, imgArray);
 
     const toastId = toast.loading("Adding Car, Please Wait...");
     // console.log(formData);
     try {
       const res = await addCar(formData).unwrap();
-      console.log(res);
+      // console.log(res);
       if (res.success === true) {
         toast.success("Car added successfully", {
           id: toastId,
@@ -83,7 +84,7 @@ const AddCar = () => {
       }
       // navigate(`/cars/${res.}`);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(
         "Something went wrong. Please make sure you input required information.",
         { id: toastId }

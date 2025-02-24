@@ -12,7 +12,7 @@ const Users = () => {
         <GradientCircularProgress />
       </div>
     );
-  console.log(UsersData);
+  // console.log(UsersData);
 
   return (
     <div>
