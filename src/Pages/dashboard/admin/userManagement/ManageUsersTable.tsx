@@ -11,8 +11,6 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 import { useDeleteUserMutation } from "@/redux/features/admin/userManagement/UsersManagementApi";
 import { MdDeleteOutline } from "react-icons/md";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-// Assuming you have a modal for managing users
 
 interface UserDataType {
   key: string;
@@ -141,8 +139,7 @@ const ManageUsersTable = ({ usersData }: ManageUsersTableProps) => {
       <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
+      (record[dataIndex]?.toString() ?? "")
         .toLowerCase()
         .includes((value as string).toLowerCase()),
     render: (text) =>
@@ -157,6 +154,45 @@ const ManageUsersTable = ({ usersData }: ManageUsersTableProps) => {
         text
       ),
   });
+
+  const deleteHandler = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: isLoading ? "Deleting..." : "Yes, delete it!",
+      showClass: {
+        popup: `
+          animate__animated,
+          animate__fadeInUp,
+          animate__faster,
+        `,
+      },
+      hideClass: {
+        popup: `
+          animate__animated
+          animate__fadeOutDown
+          animate__faster
+        `,
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        toast.loading("Deleting", { id: "deleteUser" });
+        try {
+          const response = await deleteUser(id);
+          if (response.data.success) {
+            toast.success("User deleted successfully", { id: "deleteUser" });
+          }
+        } catch (err) {
+          console.log(err);
+          toast.error("Failed to delete user", { id: "deleteUser" });
+        }
+      }
+    });
+  };
 
   const columns: TableColumnsType<UserDataType> = [
     {
@@ -259,48 +295,6 @@ const ManageUsersTable = ({ usersData }: ManageUsersTableProps) => {
       key: "updatedAt",
     },
   ];
-
-  const deleteHandler = async (id: string) => {
-    // console.log(id);
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: `${
-        isLoading ? <LoadingSpinner /> : "Yes, delete it!"
-      }`,
-
-      showClass: {
-        popup: `
-          animate__animated,
-          animate__fadeInUp,
-          animate__faster,
-        `,
-      },
-      hideClass: {
-        popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `,
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        toast.loading("Delating", { id: "deleteCar" });
-        try {
-          const response = await deleteUser(id);
-          if (response.data.success) {
-            toast.success("Car deleted successfully", { id: "deleteCar" });
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    });
-  };
 
   return (
     <>
