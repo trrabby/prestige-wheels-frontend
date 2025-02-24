@@ -14,6 +14,8 @@ import Profile from "@/Pages/Profile";
 import UpdateCar from "@/Pages/dashboard/admin/productManagement/UpdateCar";
 import CarDetails from "@/Pages/products/CarDetails";
 import Payment from "@/Pages/dashboard/Payment";
+import PaymentSuccess from "@/Pages/dashboard/PaymentSuccess";
+import PaymentFailed from "@/Pages/dashboard/PaymentFailed";
 
 const router = createBrowserRouter([
   {
@@ -42,18 +44,42 @@ const router = createBrowserRouter([
       },
       {
         path: "/my-profile",
-        element: <Profile></Profile>,
+        element: (
+          <ProtectedRoute roles={["user", "admin"]}>
+            <Profile></Profile>,
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/payment/:id",
-        element: <Payment />,
+        element: (
+          <ProtectedRoute roles={["user", "admin"]}>
+            <Payment />,
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/paymentSuccess/:id",
+        element: (
+          <ProtectedRoute roles={["user", "admin"]}>
+            <PaymentSuccess />,
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/paymentFailed",
+        element: (
+          <ProtectedRoute roles={["user", "admin"]}>
+            <PaymentFailed />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
   {
     path: "/admin",
     element: (
-      <ProtectedRoute role={"admin"}>
+      <ProtectedRoute roles={["admin"]}>
         <DashBoardLayout></DashBoardLayout>
       </ProtectedRoute>
     ),
@@ -68,7 +94,7 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: (
-      <ProtectedRoute role={"user"}>
+      <ProtectedRoute roles={["user"]}>
         <DashBoardLayout></DashBoardLayout>
       </ProtectedRoute>
     ),

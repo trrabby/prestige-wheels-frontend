@@ -81,7 +81,7 @@ export default function Payment() {
       });
 
       if (paymentUrl.data.data.paymentUrl) {
-        window.location.href = paymentUrl.data.data.paymentUrl; // Redirect the user
+        window.location.href = await paymentUrl.data.data.paymentUrl; // Redirect the user
         toast.loading("Navigating please wait...", { id: "paymentToastId" });
       } else {
         toast.error("Payment URL not received", { id: "paymentToastId" });
