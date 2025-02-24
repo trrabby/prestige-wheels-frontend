@@ -54,7 +54,7 @@ const CustomModal = ({
   const draggleRef = useRef<HTMLDivElement>(null!);
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    // console.log(e);
+    console.log(e);
     setOpen(false);
   };
 

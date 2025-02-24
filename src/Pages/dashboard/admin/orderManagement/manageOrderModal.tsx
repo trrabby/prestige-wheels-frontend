@@ -43,7 +43,7 @@ const ManageOrderModal = ({
       </div>
     );
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    // console.log(e);
+    console.log(e);
     setOpen(false);
   };
 

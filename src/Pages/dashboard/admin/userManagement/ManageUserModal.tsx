@@ -28,7 +28,7 @@ const ManageUserModal = ({
   if (!userData) return null;
   const { key, name, email, imgUrl, role, status, isDeleted } = userData;
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    // console.log(e);
+    console.log(e);
     setOpen(false);
   };
 
