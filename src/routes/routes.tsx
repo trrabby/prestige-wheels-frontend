@@ -16,11 +16,13 @@ import CarDetails from "@/Pages/products/CarDetails";
 import Payment from "@/Pages/dashboard/Payment";
 import PaymentSuccess from "@/Pages/dashboard/PaymentSuccess";
 import PaymentFailed from "@/Pages/dashboard/PaymentFailed";
+import ErrorPage from "@/Pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,

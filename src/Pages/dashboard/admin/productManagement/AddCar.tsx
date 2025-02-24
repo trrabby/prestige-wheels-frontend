@@ -93,7 +93,7 @@ const AddCar = () => {
 
   return (
     <div>
-      <SectionHead title="Add Car" para="Add you product"></SectionHead>
+      <SectionHead title="Add Car"></SectionHead>
       <Row className="md:w-6/12 mx-auto" justify="center" align="middle">
         <CustomForm onSubmit={onSubmit}>
           <CustomSelectWithAddNew

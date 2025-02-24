@@ -1,6 +1,7 @@
 import { GradientCircularProgress } from "@/components/Progress";
 import { useGetAllOrdersQuery } from "@/redux/features/admin/orderManagement/ordersManagementApi";
 import ManageOrdersTable from "./ManageOrdersTable";
+import { SectionHead } from "@/components/SectionHead";
 
 const ManageOrders = () => {
   const { data: ordersData, isLoading } = useGetAllOrdersQuery(undefined);
@@ -13,6 +14,7 @@ const ManageOrders = () => {
   // console.log(ordersData);
   return (
     <div>
+      <SectionHead title="Manage Order" />
       <ManageOrdersTable ordersData={ordersData?.data || []} />
     </div>
   );

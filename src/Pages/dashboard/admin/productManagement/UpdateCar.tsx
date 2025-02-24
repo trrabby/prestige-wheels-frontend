@@ -72,6 +72,9 @@ const UpdateCar = () => {
 
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
+    if (data.quantity > 0) {
+      data.inStock = true;
+    }
 
     const imgArray = data.image;
     let year;
@@ -124,7 +127,7 @@ const UpdateCar = () => {
 
   return (
     <div>
-      <SectionHead title="Update Car" para="Update you product"></SectionHead>
+      <SectionHead title="Update Car"></SectionHead>
       <Row className="md:w-6/12 mx-auto" justify="center" align="middle">
         <CustomForm onSubmit={onSubmit}>
           <CustomSelectWithAddNew

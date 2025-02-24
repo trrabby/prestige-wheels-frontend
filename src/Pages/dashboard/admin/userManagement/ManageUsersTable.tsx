@@ -6,51 +6,62 @@ import { Button, Input, Space, Table, Tag, Tooltip } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { GrDocumentUpdate } from "react-icons/gr";
-import ManageOrderModal from "./manageOrderModal";
+import ManageUserModal from "./ManageUserModal";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
+import { useDeleteUserMutation } from "@/redux/features/admin/userManagement/UsersManagementApi";
+import { MdDeleteOutline } from "react-icons/md";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+// Assuming you have a modal for managing users
 
-interface OrderDataType {
+interface UserDataType {
   key: string;
-  customerName: string;
+  name: string;
   email: string;
-  phone: string;
-  city: string;
-  totalPrice: number;
-  paymentStatus: string;
-  orderStatus: string;
+  imgUrl: string | null;
+  role: string;
+  status: string;
+  isDeleted: boolean;
   createdAt: string;
+  updatedAt: string;
 }
 
-type DataIndex = keyof OrderDataType;
+type DataIndex = keyof UserDataType;
 
-interface ManageOrdersTableProps {
-  ordersData: any[];
+interface ManageUsersTableProps {
+  usersData: any[];
 }
 
-const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
+const ManageUsersTable = ({ usersData }: ManageUsersTableProps) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
-  const [selectedOrder, setSelectedOrder] = useState<OrderDataType | null>(
-    null
-  );
+  const [selectedUser, setSelectedUser] = useState<UserDataType | null>(null);
   const [open, setOpen] = useState(false);
-  console.log(ordersData);
-  const handleOpenModal = (order: OrderDataType) => {
-    setSelectedOrder(order);
+
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
+
+  const handleOpenModal = (user: UserDataType) => {
+    setSelectedUser(user);
     setOpen(true);
   };
-  const data: OrderDataType[] = ordersData.map((order) => ({
-    key: order._id,
-    customerName: order.customerInfo.name,
-    customerInfo: order.customerInfo,
-    email: order.email,
-    phone: order.customerInfo.number,
-    city: order.customerInfo.city,
-    orderInfo: order.orderInfo,
-    totalPrice: order.totalPrice,
-    paymentStatus: order.paymentStatus,
-    orderStatus: order.orderStatus,
-    createdAt: new Date(order.createdAt)
+
+  const data: UserDataType[] = usersData.map((user) => ({
+    key: user._id,
+    name: user.name,
+    email: user.email,
+    imgUrl: user.imgUrl,
+    role: user.role,
+    status: user.status,
+    isDeleted: user.isDeleted,
+    createdAt: new Date(user.createdAt)
+      .toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+      .replace(",", ""),
+    updatedAt: new Date(user.updatedAt)
       .toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "short",
@@ -80,7 +91,7 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
 
   const getColumnSearchProps = (
     dataIndex: DataIndex
-  ): TableColumnType<OrderDataType> => ({
+  ): TableColumnType<UserDataType> => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -147,18 +158,12 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       ),
   });
 
-  const columns: TableColumnsType<OrderDataType> = [
+  const columns: TableColumnsType<UserDataType> = [
     {
-      title: "Order No",
-      dataIndex: "key",
-      key: "key",
-      ...getColumnSearchProps("key"),
-    },
-    {
-      title: "Customer Name",
-      dataIndex: "customerName",
-      key: "customerName",
-      ...getColumnSearchProps("customerName"),
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Email",
@@ -167,37 +172,27 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       ...getColumnSearchProps("email"),
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      className: "text-center",
+      render: (role) => (
+        <Tag color={role === "admin" ? "black" : "yellow"}>{role}</Tag>
+      ),
     },
     {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
-    },
-    {
-      title: "Total Price",
-      dataIndex: "totalPrice",
-      className: "text-right",
-      key: "totalPrice",
-      sorter: (a, b) => a.totalPrice - b.totalPrice,
-    },
-    {
-      title: "Payment Status",
-      dataIndex: "paymentStatus",
-      key: "paymentStatus",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
       className: "text-center",
       render: (status) => (
         <Tag
           color={
-            status === "Paid"
+            status === "active"
               ? "green"
-              : status === "Pending"
-              ? "blue"
-              : status === "Failed"
-              ? "black"
-              : "red"
+              : status === "blocked"
+              ? "red"
+              : "default"
           }
         >
           {status}
@@ -205,28 +200,18 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
       ),
     },
     {
-      title: "Order Status",
-      dataIndex: "orderStatus",
+      title: "Deleted",
+      dataIndex: "isDeleted",
+      key: "isDeleted",
       className: "text-center",
-      key: "orderStatus",
-      render: (status) => (
-        <Tag
-          color={
-            status === "Delivered"
-              ? "cyan"
-              : status === "Shipped"
-              ? "blue"
-              : status === "Confirmed"
-              ? "green"
-              : "red"
-          }
-        >
-          {status}
+      render: (isDeleted) => (
+        <Tag color={isDeleted ? "red" : "green"}>
+          {isDeleted ? "Yes" : "No"}
         </Tag>
       ),
     },
     {
-      title: "Update",
+      title: "Action",
       key: "x",
       align: "center",
       render: (record) => {
@@ -234,7 +219,7 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
           <div className="flex gap-2 items-center justify-center">
             <Tooltip
               placement="top"
-              title="Update order status"
+              title="Update user"
               color={"cyan"}
               key={"toolTipcolor"}
             >
@@ -246,30 +231,90 @@ const ManageOrdersTable = ({ ordersData }: ManageOrdersTableProps) => {
                 <GrDocumentUpdate className="hover:scale-125 duration-500" />
               </button>
             </Tooltip>
+            <Tooltip
+              placement="top"
+              title="Delete"
+              color={"red"}
+              key={"toolTipcolor2"}
+            >
+              <button
+                onClick={() => deleteHandler(record.key)}
+                className="bg-accent p-2 text-center text-xs font-bold uppercase text-white transition hover:bg-red-500 hover:text-white hover:scale-110 duration-500 flex items-center gap-2"
+              >
+                <MdDeleteOutline className="hover:scale-125 duration-500" />
+              </button>
+            </Tooltip>
           </div>
         );
       },
     },
     {
-      title: "Ordered On",
+      title: "Registered on",
       dataIndex: "createdAt",
       key: "createdAt",
     },
+    {
+      title: "Updated on",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+    },
   ];
+
+  const deleteHandler = async (id: string) => {
+    // console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `${
+        isLoading ? <LoadingSpinner /> : "Yes, delete it!"
+      }`,
+
+      showClass: {
+        popup: `
+          animate__animated,
+          animate__fadeInUp,
+          animate__faster,
+        `,
+      },
+      hideClass: {
+        popup: `
+          animate__animated
+          animate__fadeOutDown
+          animate__faster
+        `,
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        toast.loading("Delating", { id: "deleteCar" });
+        try {
+          const response = await deleteUser(id);
+          if (response.data.success) {
+            toast.success("Car deleted successfully", { id: "deleteCar" });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+  };
 
   return (
     <>
-      <Table<OrderDataType> columns={columns} dataSource={data} />;
-      {open && selectedOrder && (
-        <ManageOrderModal
+      <Table<UserDataType> columns={columns} dataSource={data} />;
+      {open && selectedUser && (
+        <ManageUserModal
           open={open}
           setOpen={setOpen}
-          ordersData={selectedOrder}
-          setOrdersData={setSelectedOrder}
+          userData={selectedUser}
+          setUserData={setSelectedUser}
         />
       )}
     </>
   );
 };
 
-export default ManageOrdersTable;
+export default ManageUsersTable;

@@ -101,7 +101,7 @@ export default function Payment() {
     <div>
       <SectionHead
         title="Complete Your Payment"
-        para="You order will be confirmed automaticly after payment."
+        para="Your order will be confirmed automaticly after payment."
       />
 
       <div className="flex justify-around items-start">
@@ -176,7 +176,7 @@ export default function Payment() {
           <Divider>Paying for</Divider>
           <div className="relative w-full overflow-hidden">
             <div
-              className="flex gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 px-2"
+              className="flex justify-center items-center gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 px-2"
               style={{
                 scrollBehavior: "smooth",
                 WebkitOverflowScrolling: "touch",
@@ -195,7 +195,7 @@ export default function Payment() {
                       <div className="flex gap-1 justify-center items-center">
                         <p> {order.orderedQuantity} x </p>
                         <img
-                          className="w-20 h-20 rounded-md hover:shadow-sm  cursor-pointer"
+                          className="w-32 h-20 rounded-md hover:shadow-sm  cursor-pointer"
                           src={
                             order.productId.imgUrl?.[0] || "/fallback-image.jpg"
                           }

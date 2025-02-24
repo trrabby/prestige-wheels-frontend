@@ -4,6 +4,7 @@ import AddCar from "@/Pages/dashboard/admin/productManagement/AddCar";
 import ManageCars from "@/Pages/dashboard/admin/productManagement/ManageCars";
 import ManageOrders from "@/Pages/dashboard/admin/orderManagement/ManageOrders";
 import MyOrders from "@/Pages/dashboard/user/MyOrders";
+import PaymentMangement from "@/Pages/dashboard/admin/paymentManagement/PaymentMangement";
 
 const AdminPaths = [
   {
@@ -38,6 +39,11 @@ const AdminPaths = [
         name: "My Orders",
         path: "my-orders",
         element: <MyOrders />,
+      },
+      {
+        name: "Transactions",
+        path: "transactions",
+        element: <PaymentMangement />,
       },
     ],
   },

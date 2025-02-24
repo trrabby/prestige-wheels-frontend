@@ -141,16 +141,16 @@ const MyOrdersTable = ({ ordersData }: MyOrdersTableProps) => {
 
   const columns: TableColumnsType<OrderDataType> = [
     {
+      title: "Order No",
+      dataIndex: "key",
+      key: "key",
+      ...getColumnSearchProps("key"),
+    },
+    {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
       ...getColumnSearchProps("customerName"),
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      ...getColumnSearchProps("email"),
     },
     {
       title: "Phone",
@@ -175,7 +175,7 @@ const MyOrdersTable = ({ ordersData }: MyOrdersTableProps) => {
       key: "paymentStatus",
       className: "text-center",
       render: (status, Record) =>
-        status === "Unpaid" ? (
+        Record.orderStatus !== "Canceled" && status !== "Paid" ? (
           <Tooltip
             placement="top"
             title="Pay to complete order"
