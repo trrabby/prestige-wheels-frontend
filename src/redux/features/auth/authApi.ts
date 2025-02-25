@@ -8,6 +8,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: userInfo,
       }),
+      invalidatesTags: ["users", "cars", "orders", "my_orders"],
     }),
     register: builder.mutation({
       query: (userInfo) => ({
@@ -15,6 +16,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: userInfo,
       }),
+      invalidatesTags: ["users", "cars", "orders", "my_orders"],
     }),
   }),
 });
