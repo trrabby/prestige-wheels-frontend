@@ -17,6 +17,7 @@ import Payment from "@/Pages/dashboard/Payment";
 import PaymentSuccess from "@/Pages/dashboard/PaymentSuccess";
 import PaymentFailed from "@/Pages/dashboard/PaymentFailed";
 import ErrorPage from "@/Pages/ErrorPage";
+import ServicingDetailsPage from "@/Pages/home/ServicingDetailedPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products></Products>,
+      },
+      {
+        path: "/services",
+        element: <ServicingDetailsPage></ServicingDetailsPage>,
       },
       {
         path: "/cars/:id",

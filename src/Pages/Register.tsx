@@ -11,93 +11,100 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const Register = () => {
   const navigate = useNavigate();
-
   const [register, { isLoading }] = useRegisterMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    // console.log(data);
     const image = data.image;
     const inputValues = { ...data };
     delete inputValues?.image;
 
-    // console.log(inputValues, image);
-    // Create a FormData object and append the data
     const formData = new FormData();
     formData.append("data", JSON.stringify(inputValues));
     formData.append("file", image);
 
     const toastId = toast.loading("You are being registered. Please Wait");
-    // console.log(formData);
+
     try {
       await register(formData).unwrap();
-      // console.log(res);
-      toast.success("Registration Successfull, Please Sign In", {
-        id: toastId,
-      });
+      toast.success("Registration Successful, Please Sign In", { id: toastId });
       navigate(`/login`);
     } catch (err) {
-      // console.log(err);
       toast.error("Something went wrong", { id: toastId });
     }
   };
 
   return (
-    <div className="flex flex-col lg:min-h-[calc(100vh-100px)] items-center justify-center p-5">
+    <div className="flex min-h-screen items-center justify-center px-4 bg-gray-100">
       <Helmet>
         <title>Sign Up | Prestige Wheels</title>
       </Helmet>
 
-      <div
-        style={{
-          background:
-            "linear-gradient(to right, rgba(138, 43, 226, 0.8), rgba(255, 255, 255, 0.8))",
-        }}
-        className=" border w-full md:w-6/12 mx-auto text-white  min-h-[calc(100vh-270px)] rounded-xl space-y-2 font-extrabold shadow-lg hover:shadow-accent p-10"
-      >
-        <Row justify="center" align="middle">
-          <CustomForm onSubmit={onSubmit}>
-            <CustomInput type="text" name="name" label="Name:" />
-            <CustomInput type="text" name="email" label="Email:" />
-            <CustomInput type="text" name="password" label="Password" />
+      <div className="w-full sm:w-10/12 md:w-8/12 lg:w-7/12 xl:w-6/12 flex flex-col lg:flex-row bg-white shadow-xl rounded-2xl overflow-hidden ">
+        {/* Image Section */}
+        <div className="hidden lg:flex w-5/12 bg-gradient-to-r from-purple-700 to-indigo-700 items-center justify-center p-6">
+          <img
+            src="https://i.ibb.co.com/fnpD264/sign-up-concept-illustration-114360-7895.jpg"
+            alt="Register"
+            className="rounded-lg shadow-md border-4 border-white"
+          />
+        </div>
 
-            <Controller
-              name="image"
-              render={({ field: { onChange, value, ...field } }) => (
-                <Form.Item label="Picture">
-                  <Input
-                    type="file"
-                    value={value?.fileName}
-                    {...field}
-                    onChange={(e) => onChange(e.target.files?.[0])}
-                  />
-                </Form.Item>
-              )}
-            />
+        {/* Form Section */}
+        <div className="w-full lg:w-8/12 flex flex-col items-center justify-center p-8 md:p-12 bg-white">
+          <h2 className="text-3xl font-extrabold text-gray-800 mb-6">
+            Create an Account
+          </h2>
+          <p className="text-gray-500 text-sm md:text-base mb-6">
+            Sign up to start your journey with us.
+          </p>
 
-            <p className="w-full text-left pb-5">
-              Already have an account ?{" "}
-              <Link className="hover:text-white" to={"/login"}>
-                {" "}
-                Sign In{" "}
-              </Link>
-            </p>
+          <Row justify="center" align="middle" className="w-full sm:w-10/12">
+            <CustomForm onSubmit={onSubmit}>
+              <CustomInput type="text" name="name" label="Name" />
+              <CustomInput type="text" name="email" label="Email" />
+              <CustomInput type="password" name="password" label="Password" />
 
-            <div className="w-full text-center">
+              <Controller
+                name="image"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Profile Picture">
+                    <Input
+                      type="file"
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
+              />
+
+              <p className="w-full text-left pb-4 text-sm md:text-base text-gray-600">
+                Already have an account?{" "}
+                <Link
+                  className="text-purple-600 hover:text-purple-800 font-semibold"
+                  to={"/login"}
+                >
+                  Sign In
+                </Link>
+              </p>
+
               <Button
                 style={{
                   background:
-                    "linear-gradient(90deg, rgba(138, 43, 226, 0.8), rgba(75, 0, 130, 0.8))",
+                    "linear-gradient(90deg, rgba(138, 43, 226, 0.9), rgba(75, 0, 130, 0.9))",
                   color: "white",
                   fontWeight: "bold",
                   borderRadius: "10px",
+                  width: "100%",
+                  padding: "10px",
+                  fontSize: "16px",
                 }}
                 htmlType="submit"
               >
                 {isLoading ? <LoadingSpinner /> : "Sign Up"}
               </Button>
-            </div>
-          </CustomForm>
-        </Row>
+            </CustomForm>
+          </Row>
+        </div>
       </div>
     </div>
   );

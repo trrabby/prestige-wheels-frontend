@@ -30,7 +30,6 @@ const Login = () => {
 
     try {
       const res = await login(data).unwrap();
-      // console.log(res);
       const user = verifyToken(res.data.accessToken) as TUser;
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success("Signed in", { id: toastId, duration: 2000 });
@@ -42,43 +41,56 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col lg:h-[calc(100vh-100px)] min-h-screen items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center px-4">
       <Helmet>
-        <title> Sign In| Prestige Wheels</title>
+        <title>Sign In | Prestige Wheels</title>
       </Helmet>
 
-      <div
-        style={{
-          background:
-            "linear-gradient(to right, rgba(138, 43, 226, 0.8), rgba(255, 255, 255, 0.8))",
-        }}
-        className="w-6/12 mx-auto flex flex-col items-center justify-center  text-white  min-h-[calc(100vh-270px)] rounded-xl space-y-2 font-extrabold shadow-lg hover:shadow-accent p-10 "
-      >
-        <Row justify="center" align="middle" className="w-8/12 mx-auto">
-          <CustomForm onSubmit={onSubmit} defaultValues={defaultValues}>
-            <CustomInput type="text" name="email" label="Email:" />
-            <CustomInput type="text" name="password" label="Password" />
-            <p className="w-full text-left pb-5">
-              Don't have an account ?{" "}
-              <Link className="hover:text-white" to={"/register"}>
-                {" "}
-                Sign Up{" "}
-              </Link>
-            </p>
-            <Button
-              style={{
-                background:
-                  "linear-gradient(90deg, rgba(138, 43, 226, 0.8), rgba(75, 0, 130, 0.8))",
-                color: "white",
-                fontWeight: "bold",
-                borderRadius: "10px",
-              }}
-              htmlType="submit"
-            >
-              {isLoading ? <LoadingSpinner /> : "Sign In"}
-            </Button>
-          </CustomForm>
-        </Row>
+      <div className="w-full sm:w-10/12 md:w-8/12 lg:w-7/12 xl:w-6/12 flex flex-col lg:flex-row bg-white shadow-lg rounded-xl overflow-hidden">
+        {/* Image Section */}
+        <div className="hidden lg:flex w-5/12 bg-gradient-to-r from-purple-600 to-indigo-600 items-center justify-center p-6">
+          <img
+            src="https://i.ibb.co.com/cw11hgP/computer-security-with-login-password-padlock-107791-16191.jpg"
+            alt="Login"
+            className="rounded-lg shadow-lg"
+          />
+        </div>
+
+        {/* Form Section */}
+        <div className="w-full lg:w-7/12 flex flex-col items-center justify-center p-6 md:p-10 bg-white">
+          <h2 className="text-2xl font-bold text-gray-700 mb-4">Sign In</h2>
+
+          <Row justify="center" align="middle" className="w-full sm:w-10/12">
+            <CustomForm onSubmit={onSubmit} defaultValues={defaultValues}>
+              <CustomInput type="text" name="email" label="Email:" />
+              <CustomInput type="password" name="password" label="Password" />
+
+              <p className="w-full text-left pb-4 text-sm md:text-base text-gray-600">
+                Don't have an account?{" "}
+                <Link
+                  className="text-purple-600 hover:text-purple-800 font-semibold"
+                  to={"/register"}
+                >
+                  Sign Up
+                </Link>
+              </p>
+
+              <Button
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(138, 43, 226, 0.8), rgba(75, 0, 130, 0.8))",
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "10px",
+                  width: "100%",
+                }}
+                htmlType="submit"
+              >
+                {isLoading ? <LoadingSpinner /> : "Sign In"}
+              </Button>
+            </CustomForm>
+          </Row>
+        </div>
       </div>
     </div>
   );
