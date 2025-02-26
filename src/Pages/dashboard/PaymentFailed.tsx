@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useLocation } from "react-router-dom";
 
 export default function PaymentFailed() {
@@ -19,6 +20,9 @@ export default function PaymentFailed() {
 
   return (
     <div className="flex flex-col space-y-3 font-bold items-center justify-center w-full min-h-[calc(100vh-100px)]">
+      <Helmet>
+        <title>Payment Failed | Prestige Wheels</title>
+      </Helmet>
       <div className="flex flex-col space-y-3 font-bold items-center justify-center w-full">
         {/* Animated crossmark */}
         <div className="crossmark">

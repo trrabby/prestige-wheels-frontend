@@ -2,6 +2,7 @@ import CarCard from "@/components/CarCard";
 import { GradientCircularProgress } from "@/components/Progress";
 import { SectionHead } from "@/components/SectionHead";
 import { useGetAllProductsQuery } from "@/redux/features/admin/productManagement/productsManagementApi";
+import { Helmet } from "react-helmet-async";
 
 const Products = () => {
   const { data: CarsData, isLoading } = useGetAllProductsQuery([
@@ -24,6 +25,9 @@ const Products = () => {
     );
   return (
     <div>
+      <Helmet>
+        <title>Products Page | Prestige Wheels</title>
+      </Helmet>
       <SectionHead
         title="Our Collections"
         para={`"Experience luxury redefined with our exclusive car collection, featuring the finest vehicles crafted for performance, style, and sophistication"`}

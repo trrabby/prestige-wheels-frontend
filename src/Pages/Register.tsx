@@ -44,7 +44,7 @@ const Register = () => {
   return (
     <div className="flex flex-col lg:min-h-[calc(100vh-100px)] items-center justify-center p-5">
       <Helmet>
-        <title> Prestige Wheels | Sign Up</title>
+        <title>Sign Up | Prestige Wheels</title>
       </Helmet>
 
       <div

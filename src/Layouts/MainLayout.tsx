@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "./Navbar/Navbar";
 import { NavbarMd } from "./Navbar/NavbarMd";
 
 export default function MainLayout() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation(); // Get the current route
 
   const handleScroll = () => {
     if (window.scrollY > lastScrollY) {
@@ -27,17 +28,24 @@ export default function MainLayout() {
   }, [lastScrollY]);
 
   return (
-    <div className="w-[calc(100vw-100px)] mx-auto">
-      {/* navbar for medium and large device */}
-      <div
-        className={`w-full md:flex md:sticky md:top-0 hidden z-50 transition-transform duration-300 ${
-          showNavbar ? "translate-y-0" : "-translate-y-full"
-        }`}
-      >
-        <NavbarMd />
-      </div>
-      {/* navbar for small device */}
-      <Navbar />
+    <div>
+      {/* Show Navbar only if the route is NOT "/" */}
+      {location.pathname !== "/" && (
+        <>
+          {/* Navbar for medium and large devices */}
+          <div
+            className={`w-full md:flex md:sticky md:top-0 hidden z-50 transition-transform duration-300 ${
+              showNavbar ? "translate-y-0" : "-translate-y-full"
+            }`}
+          >
+            <NavbarMd />
+          </div>
+
+          {/* Navbar for small devices */}
+          <Navbar />
+        </>
+      )}
+
       <Outlet />
     </div>
   );

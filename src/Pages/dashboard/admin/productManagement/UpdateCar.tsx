@@ -119,7 +119,7 @@ const UpdateCar = () => {
           id: toastId,
         });
       }
-      navigate(`/products/cars/${id}`);
+      navigate(`/cars/${id}`);
     } catch (err) {
       // console.log(err);
       toast.error("Something went wrong", { id: toastId });

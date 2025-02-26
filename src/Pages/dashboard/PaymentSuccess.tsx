@@ -2,6 +2,7 @@ import { TUser, useCurrentToken } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hook";
 import { verifyToken } from "@/utils/verifyToken";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useLocation } from "react-router-dom";
 
 export default function PaymentSuccess() {
@@ -27,6 +28,9 @@ export default function PaymentSuccess() {
 
   return (
     <div className="flex flex-col space-y-3 font-bold items-center justify-center w-full min-h-[calc(100vh-100px)]">
+      <Helmet>
+        <title>Payment Success | Prestige Wheels</title>
+      </Helmet>
       <div className="spark-spray-container">
         <div className="tickmark"></div>
         <div className="spark"></div>

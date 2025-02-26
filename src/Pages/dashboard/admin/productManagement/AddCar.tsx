@@ -14,9 +14,16 @@ import CustomTextArea from "@/components/forms/CustomTextArea";
 import CustomDatePicker from "@/components/forms/CustomDatePicker";
 import CustomSelect from "@/components/forms/CustomSelect";
 import CustomFileUploadNew from "@/components/forms/CustomFileUploadNew";
+import { Helmet } from "react-helmet-async";
+import { GradientCircularProgress } from "@/components/Progress";
+import { useNavigate } from "react-router-dom";
 
 const AddCar = () => {
-  const { carBrandOptions, carModelOptions } = OptionMaker();
+  const {
+    carBrandOptions,
+    carModelOptions,
+    isLoading: isOptionMakerLoading,
+  } = OptionMaker();
   // console.log(carBrandOptions);
 
   const carCategoryOptions = [
@@ -43,6 +50,14 @@ const AddCar = () => {
   ];
 
   const [addCar, { isLoading }] = useAddCarMutation();
+  const navigate = useNavigate();
+  if (isOptionMakerLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <GradientCircularProgress />
+      </div>
+    );
+  }
 
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
@@ -82,7 +97,8 @@ const AddCar = () => {
           id: toastId,
         });
       }
-      // navigate(`/cars/${res.}`);
+      console.log(res);
+      navigate(`/cars/${res.data._id}`);
     } catch (err) {
       // console.log(err);
       toast.error(
@@ -94,6 +110,9 @@ const AddCar = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Add Car | Prestige Wheels</title>
+      </Helmet>
       <SectionHead title="Add Car"></SectionHead>
       <Row className="md:w-6/12 mx-auto" justify="center" align="middle">
         <CustomForm onSubmit={onSubmit}>

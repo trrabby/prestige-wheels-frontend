@@ -2,12 +2,14 @@ import { useGetAllProductsQuery } from "@/redux/features/admin/productManagement
 
 export const OptionMaker = () => {
   // Brand Options
-  const { data: carsData } = useGetAllProductsQuery([
-    {
-      name: "fields",
-      value: "brand",
-    },
-  ]);
+  const { data: carsData, isLoading: carBrandLoading } = useGetAllProductsQuery(
+    [
+      {
+        name: "fields",
+        value: "brand",
+      },
+    ]
+  );
   const carBrands = [...new Set(carsData?.data.map((car) => car.brand))];
 
   const carBrandOptions = carBrands.map((brand) => ({
@@ -16,12 +18,13 @@ export const OptionMaker = () => {
   }));
 
   // Model Options
-  const { data: modelData } = useGetAllProductsQuery([
-    {
-      name: "fields",
-      value: "model",
-    },
-  ]);
+  const { data: modelData, isLoading: carModelLoading } =
+    useGetAllProductsQuery([
+      {
+        name: "fields",
+        value: "model",
+      },
+    ]);
   const carModels = [...new Set(modelData?.data.map((car) => car.model))];
 
   const carModelOptions = carModels.map((model) => ({
@@ -30,12 +33,13 @@ export const OptionMaker = () => {
   }));
 
   // Category Options
-  const { data: categoryData } = useGetAllProductsQuery([
-    {
-      name: "fields",
-      value: "category",
-    },
-  ]);
+  const { data: categoryData, isLoading: carCategoryLoading } =
+    useGetAllProductsQuery([
+      {
+        name: "fields",
+        value: "category",
+      },
+    ]);
   const carCategories = [
     ...new Set(categoryData?.data.map((car) => car.category)),
   ];
@@ -49,5 +53,6 @@ export const OptionMaker = () => {
     carBrandOptions,
     carModelOptions,
     carCategoryOptions,
+    isLoading: carBrandLoading || carModelLoading || carCategoryLoading,
   };
 };

@@ -44,7 +44,7 @@ const Login = () => {
   return (
     <div className="flex flex-col lg:h-[calc(100vh-100px)] min-h-screen items-center justify-center">
       <Helmet>
-        <title> Prestige Wheels | Sign In</title>
+        <title> Sign In| Prestige Wheels</title>
       </Helmet>
 
       <div

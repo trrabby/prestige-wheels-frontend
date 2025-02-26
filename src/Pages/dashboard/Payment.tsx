@@ -13,6 +13,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import sslLogo from "../../assets/logo.png";
+import { Helmet } from "react-helmet-async";
 
 export default function Payment() {
   const { id } = useParams();
@@ -99,6 +100,9 @@ export default function Payment() {
 
   return (
     <div>
+      <Helmet>
+        <title>Payment Page | Prestige Wheels</title>
+      </Helmet>
       <SectionHead
         title="Complete Your Payment"
         para="Your order will be confirmed automaticly after payment."

@@ -1,67 +1,110 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
+import { NavbarMd } from "@/Layouts/Navbar/NavbarMd";
+import { useEffect, useState } from "react";
 
 const Banner = () => {
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [play, setPlay] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY) {
+      // Scrolling down
+      setShowNavbar(false);
+    } else {
+      // Scrolling up
+      setShowNavbar(true);
+    }
+    setLastScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
+  const handlePlayButton = () => {
+    setPlay(!play);
+  };
   return (
-    <div>
-      {/* banner */}
-      <section
-        className=" min-h-screen rounded-xl w-full  
-      bg-[url('https://res.cloudinary.com/divyajujl/image/upload/v1738866371/view-3d-car_mlqce3.jpg')] bg-cover bg-opacity-5 "
+    <div className="relative w-full min-h-screen">
+      <div
+        className={`w-full md:flex md:sticky md:top-0 hidden z-50 transition-transform duration-300 ${
+          showNavbar ? "translate-y-0" : "-translate-y-full"
+        }`}
       >
-        <div className=" mx-auto flex flex-col lg:items-start w-full  min-h-screen">
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            className="py-20 text-left space-y-5 flex flex-col items-start pl-20"
+        <NavbarMd />
+      </div>
+      {/* Background Video */}
+      {/* <video
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        src={bgVideo}
+        autoPlay
+        loop
+        muted
+      /> */}
+
+      {/* Dark Overlay for Readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-50 bg-[url('https://res.cloudinary.com/divyajujl/image/upload/v1740578285/360915_mzddqk.jpg')] bg-fixed bg-cover bg-center"></div>
+
+      {/* Content */}
+      <section className="relative z-20 flex flex-col justify-center items-start min-h-screen px-20 pt-20 text-black  ">
+        <h1 className=" text-3xl font-extrabold sm:text-5xl w-9/12">
+          <strong className="font-extrabold sm:block p-3">
+            The All New Top Class Cars Now Available!
+          </strong>
+        </h1>
+
+        <p className="text-white mt-4 sm:text-xl/relaxed w-8/12 text-justify p-3">
+          Reinvent adventure with an all-new hybrid experience. The Toyota
+          Corolla Cross brings a whole new meaning to the world of Crossovers.
+        </p>
+
+        <div className="mt-8 flex gap-4 pl-4">
+          <Link
+            className="border border-white rounded bg-accent px-12 py-3 text-sm text-white font-bold hover:bg-transparent hover:scale-105 duration-700 shadow"
+            to={"/products"}
           >
-            <h1 className="backdrop-blur-sm text-3xl font-extrabold sm:text-5xl px-3 w-9/12">
-              <strong className="font-extrabold text-white sm:block p-3">
-                The All New Top Class Cars Now Available!
-              </strong>
-            </h1>
+            Get Started
+          </Link>
 
-            <p className=" backdrop-blur-sm mt-4 text-white sm:text-xl/relaxed  w-8/12 text-justify p-3">
-              Reinvent adventure with an all new hybrid experience. The Toyota
-              Corolla Cross brings a whole new meaning to the world of
-              Crossovers.
-            </p>
+          <ScrollLink
+            className="border-2 border-white text-white backdrop-blur-xl rounded px-10 py-3 text-sm font-bold shadow hover:text-white hover:bg-transparent hover:backdrop-blur-0 hover:scale-105 duration-500 cursor-pointer"
+            to="footer"
+          >
+            Learn More
+          </ScrollLink>
+        </div>
 
-            <div>
-              <div className="mt-8 flex justify-center items-center gap-4 w-full ">
-                <Link
-                  data-aos="fade-right"
-                  data-aos-duration="1000"
-                  className="block border border-white rounded bg-accent px-12 py-3 text-sm text-white font-bold hover:text-white hover:bg-transparent hover:scale-105 duration-700 shadow hover:bg-primary focus:outline-none focus:ring  sm:w-auto"
-                  to={"/products"}
-                >
-                  Get Started
-                </Link>
-
-                <ScrollLink
-                  data-aos="fade-left"
-                  data-aos-duration="1000"
-                  className="block hover:scale-105  rounded px-10 py-3 text-sm font-bold border-white border-2 text-accent shadow hover:text-white focus:outline-none focus:ring hover:bg-accent duration-500 sm:w-auto cursor-pointer"
-                  to="footer"
-                >
-                  Learn More
-                </ScrollLink>
-              </div>
-            </div>
+        {/* Embedded Video */}
+        <div className=" flex justify-end items-end w-full pt-20 relative pb-5">
+          <div
+            onClick={handlePlayButton}
+            className={`flex justify-center items-center inset-0 bg-black bg-opacity-50 w-[560px] h-[318px]  right-0 bottom-0 rounded-lg ${
+              play ? "hidden" : ""
+            }`}
+          >
+            <img
+              className={
+                " w-[50px] h-[50px] hover:cursor-pointer bg-white  rounded-full"
+              }
+              src={
+                "https://res.cloudinary.com/divyajujl/image/upload/v1740583826/2468825_g3rf5x.png"
+              }
+            />
           </div>
-          <div className="flex justify-end items-end w-full pt-20 ">
-            <iframe
-              className=" bg-[#ffffff67] rounded-lg shadow-md"
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/FxJALxhIx8k?si=Idj2GmUK7NWUueDm&amp;controls=0"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
-          </div>
+          <iframe
+            className={`bg-white  rounded-lg ${play ? "" : "hidden"}`}
+            width="560"
+            height="315"
+            src="https://www.youtube-nocookie.com/embed/PUkAIAIzA0I?si=avuQ80bQAEp64E7I&amp;start=01&autoplay=1&mute=1"
+            title="Fuck you"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
         </div>
       </section>
     </div>
