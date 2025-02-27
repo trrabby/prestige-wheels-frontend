@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Wrench, Car, ShieldCheck, Activity } from "lucide-react";
+import { toast } from "sonner";
 
 const services = [
   {
@@ -48,7 +49,10 @@ const ServiceBookingPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Booking Data:", { selectedService, ...formData });
-    alert("Your service appointment has been booked!");
+    if (selectedService === "") {
+      return toast.error("Please select a service at first.");
+    }
+    toast.success("Your service appointment has been booked!");
   };
 
   return (
