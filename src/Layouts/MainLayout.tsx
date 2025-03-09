@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "./Navbar/Navbar";
 import { NavbarMd } from "./Navbar/NavbarMd";
+import Footer from "@/Pages/footer/Footer";
 
 export default function MainLayout() {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -47,6 +48,7 @@ export default function MainLayout() {
       )}
 
       <Outlet />
+      <Footer />
     </div>
   );
 }

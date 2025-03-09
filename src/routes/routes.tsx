@@ -18,6 +18,9 @@ import PaymentSuccess from "@/Pages/dashboard/PaymentSuccess";
 import PaymentFailed from "@/Pages/dashboard/PaymentFailed";
 import ErrorPage from "@/Pages/ErrorPage";
 import ServicingDetailsPage from "@/Pages/home/ServicingDetailedPage";
+import AboutUsPage from "@/Pages/about/Aboutus";
+import ContactUs from "@/Pages/contact/Contact";
+import FAQsSection from "@/Pages/about/FAQ";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +39,18 @@ const router = createBrowserRouter([
       {
         path: "/services",
         element: <ServicingDetailsPage></ServicingDetailsPage>,
+      },
+      {
+        path: "/about",
+        element: <AboutUsPage></AboutUsPage>,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs></ContactUs>,
+      },
+      {
+        path: "/faq",
+        element: <FAQsSection></FAQsSection>,
       },
       {
         path: "/cars/:id",
