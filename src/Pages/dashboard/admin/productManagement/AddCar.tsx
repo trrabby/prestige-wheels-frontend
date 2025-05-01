@@ -48,7 +48,6 @@ const AddCar = () => {
       label: "Convertible",
     },
   ];
-
   const [addCar, { isLoading }] = useAddCarMutation();
   const navigate = useNavigate();
   if (isOptionMakerLoading) {
@@ -117,7 +116,6 @@ const AddCar = () => {
       <Row className="md:w-6/12 mx-auto" justify="center" align="middle">
         <CustomForm onSubmit={onSubmit}>
           <CustomSelectWithAddNew
-            key={1}
             label="Brand"
             name="brand"
             options={carBrandOptions}
@@ -125,7 +123,6 @@ const AddCar = () => {
             required={true}
           />
           <CustomSelectWithAddNew
-            key={2}
             label="Model"
             name="model"
             options={carModelOptions}
@@ -134,7 +131,6 @@ const AddCar = () => {
           />
 
           <CustomSelect
-            key={3}
             label="Category"
             name="category"
             options={carCategoryOptions}
@@ -143,7 +139,6 @@ const AddCar = () => {
           />
 
           <CustomDatePicker
-            key={4}
             name="year"
             label="Edition"
             placeholder="Select Production Date"
@@ -151,7 +146,6 @@ const AddCar = () => {
           />
 
           <CustomInput
-            key={5}
             type="number"
             name="price"
             label="Price in Taka"
@@ -159,7 +153,6 @@ const AddCar = () => {
             required={true}
           />
           <CustomInput
-            key={6}
             type="number"
             name="quantity"
             label="Quantity"
@@ -168,7 +161,6 @@ const AddCar = () => {
           />
 
           <CustomTextArea
-            key={7}
             name="description"
             label="Description"
             placeholder="Write Description"
@@ -176,7 +168,7 @@ const AddCar = () => {
           />
 
           {/* <CustomFileInput key={8} label="Picture" name="image" /> */}
-          <CustomFileUploadNew key={10} label="Picture" name="image" />
+          <CustomFileUploadNew label="Picture" name="image" />
 
           <div className="w-full text-center">
             <Button

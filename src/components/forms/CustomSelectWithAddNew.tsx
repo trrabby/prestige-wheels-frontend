@@ -69,7 +69,14 @@ const CustomSelectWithAddNew = ({
             mode={mode}
             style={{ width: "100%" }}
             {...field}
-            options={[...(options || []), ...selectOptions]}
+            options={[
+              ...new Map(
+                [...(options || []), ...selectOptions].map((item) => [
+                  item.value,
+                  item,
+                ])
+              ).values(),
+            ]}
             size="large"
             disabled={disabled}
             dropdownRender={(menu) => (

@@ -109,7 +109,7 @@ export default function Payment() {
       />
 
       <div className="flex justify-around items-start">
-        <div className="space-y-2 w-6/12 border-r-2 pr-2 border-red-500">
+        <div className="space-y-2 w-6/12 border-r-2 px-2 pl-5 border-red-500 text-justify">
           <Divider className="text-accent">Customer Information</Divider>
           {user && (
             <div className="space-y-2">
