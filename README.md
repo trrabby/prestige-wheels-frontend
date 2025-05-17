@@ -1,50 +1,78 @@
-# React + TypeScript + Vite
+# 🚗 Prestige Wheels
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Prestige Wheels** is a modern and responsive car shop web application offering secure user authentication, intuitive product browsing, and seamless order management. Designed with both users and administrators in mind, it ensures a smooth and secure shopping experience.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🔐 User Authentication
+- Secure Registration and Login (Name, Email, Password)
+- Passwords stored using hashing
+- Role-based access (User / Admin)
+- JWT token-based authentication
+- Logout functionality with redirection
 
-## Expanding the ESLint configuration
+### 🏠 Public Pages
+- **Home Page**:  
+  - Logo, favicon, and navigation menu  
+  - Banner with carousel or special offers  
+  - 6 Featured Cars  
+  - Testimonials / Blogs  
+  - Footer with social links and contact details
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **All Products Page**:  
+  - Search by brand, name, or category  
+  - Filter by price, model, brand, category, availability  
+  - Dynamic search and filter results  
+  - Product cards with details and "View Details" button
 
-- Configure the top-level `parserOptions` property like this:
+- **Product Details Page**:  
+  - Full product information with images  
+  - “Buy Now” button redirects to Checkout
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **About Page**:  
+  - Info about the shop, mission, and story
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 🔒 Private Pages
+- **Checkout Page**:  
+  - Order form with user/product info  
+  - Quantity validation (stock check)  
+  - Total price calculation  
+  - SurjoPay integration for payments  
+  - "Order Now" button
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Dashboard**  
+  - **User Dashboard**:  
+    - View orders  
+    - Manage profile  
+    - Update password (with current password verification)  
+  - **Admin Dashboard**:  
+    - Manage Users (Activate/Deactivate)  
+    - Manage Products (Create, Read, Update, Delete)  
+    - Manage Orders (CRUD and status update)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### 🛠 Optional Features
+- **Track Order Section (User Side)**:  
+  - Display order progress (Pending → Delivered)  
+  - Show delivery date, order ID, product details  
+- **Admin Order Status Control**:  
+  - Update order status and set delivery estimate  
+  - Changes reflected in user dashboard
+
+## 🖌 UI/UX
+- Fully responsive design for all screen sizes
+- Proper alignment, typography, and clean layout
+- Friendly error messages:
+  - Invalid login credentials
+  - Duplicate registration
+  - Failed operations (e.g., out-of-stock)
+- Loading spinners during API calls
+- Toast notifications for actions like login, order success
+
+## 📂 Technologies Used
+- Frontend: HTML, CSS, JavaScript / React (as per your stack)
+- Backend: Node.js / Express.js
+- Database: MongoDB / PostgreSQL
+- Authentication: JWT
+- Payment: SurjoPay Integration
+
+## 🚀 Getting Started
